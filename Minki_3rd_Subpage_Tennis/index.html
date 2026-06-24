@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Irene Suh — 2026 South Korea Open Final</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- ===================== SCREEN 1 : GAME START ===================== -->
+    <section class="screen screen--start is-active" id="screen-start">
+      <div class="start-court-bg">
+        <div class="court-lines">
+          <span class="cl cl-outer"></span>
+          <span class="cl cl-net"></span>
+          <span class="cl cl-service-h"></span>
+          <span class="cl cl-center"></span>
+        </div>
+        <div class="floating-balls" id="floatingBalls"></div>
+      </div>
+
+      <div class="start-content">
+        <p class="tournament-tag">2026 SOUTH KOREA OPEN</p>
+        <h1 class="title-final">FINAL</h1>
+        <div class="versus">
+          <span class="player-name p-left">IRENE SUH</span>
+          <span class="vs">V.S.</span>
+          <span class="player-name p-right">PLAYER 1</span>
+        </div>
+        <button class="btn-start" id="btnGameStart">
+          <span class="btn-ball"></span>
+          GAME START
+        </button>
+        <p class="start-hint">click the ball to begin the match</p>
+      </div>
+    </section>
+
+    <!-- ===================== SCREEN 2/4/5 : TENNIS MATCH ===================== -->
+    <section class="screen screen--game" id="screen-game">
+      <div class="game-stage" id="gameStage">
+        <svg id="matchScene" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3f9bd6"/>
+              <stop offset="55%" stop-color="#56b4ef"/>
+              <stop offset="100%" stop-color="#bfe7ff"/>
+            </linearGradient>
+            <linearGradient id="courtGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3fae5a"/>
+              <stop offset="100%" stop-color="#2f9249"/>
+            </linearGradient>
+            <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fff6b8"/>
+              <stop offset="60%" stop-color="#ffe45e"/>
+              <stop offset="100%" stop-color="#ffd21a"/>
+            </radialGradient>
+          </defs>
+
+          <!-- SKY -->
+          <rect x="0" y="0" width="1200" height="430" fill="url(#skyGrad)"/>
+
+          <!-- SUN -->
+          <g id="sun">
+            <circle cx="1060" cy="95" r="46" fill="url(#sunGrad)"/>
+            <g stroke="#ffe45e" stroke-width="6" stroke-linecap="round" opacity="0.85">
+              <line x1="1060" y1="18" x2="1060" y2="38"/>
+              <line x1="1060" y1="152" x2="1060" y2="172"/>
+              <line x1="983" y1="95" x2="1003" y2="95"/>
+              <line x1="1117" y1="95" x2="1137" y2="95"/>
+              <line x1="1006" y1="41" x2="1020" y2="55"/>
+              <line x1="1100" y1="135" x2="1114" y2="149"/>
+              <line x1="1114" y1="41" x2="1100" y2="55"/>
+              <line x1="1020" y1="135" x2="1006" y2="149"/>
+            </g>
+          </g>
+
+          <!-- CLOUDS -->
+          <g id="clouds" fill="#ffffff" opacity="0.95">
+            <g class="cloud" data-speed="22">
+              <ellipse cx="180" cy="80" rx="55" ry="26"/>
+              <ellipse cx="225" cy="70" rx="42" ry="30"/>
+              <ellipse cx="135" cy="88" rx="38" ry="22"/>
+            </g>
+            <g class="cloud" data-speed="34">
+              <ellipse cx="520" cy="55" rx="48" ry="22"/>
+              <ellipse cx="560" cy="48" rx="36" ry="26"/>
+              <ellipse cx="485" cy="62" rx="30" ry="18"/>
+            </g>
+            <g class="cloud" data-speed="16">
+              <ellipse cx="800" cy="120" rx="50" ry="22"/>
+              <ellipse cx="840" cy="112" rx="34" ry="24"/>
+            </g>
+          </g>
+
+          <!-- CITY BUILDINGS -->
+          <g id="buildings">
+            <rect x="40" y="190" width="80" height="120" fill="#7d93b8"/>
+            <rect x="130" y="150" width="64" height="160" fill="#90a6cb"/>
+            <rect x="205" y="210" width="55" height="100" fill="#6f86ad"/>
+            <rect x="930" y="200" width="70" height="110" fill="#7d93b8"/>
+            <rect x="1010" y="160" width="60" height="150" fill="#90a6cb"/>
+            <rect x="1080" y="215" width="66" height="95" fill="#6f86ad"/>
+            <g fill="#cfe0ff" opacity="0.85">
+              <rect x="52" y="205" width="12" height="16"/><rect x="74" y="205" width="12" height="16"/><rect x="96" y="205" width="12" height="16"/>
+              <rect x="52" y="235" width="12" height="16"/><rect x="74" y="235" width="12" height="16"/><rect x="96" y="235" width="12" height="16"/>
+              <rect x="142" y="170" width="12" height="16"/><rect x="164" y="170" width="12" height="16"/>
+              <rect x="142" y="200" width="12" height="16"/><rect x="164" y="200" width="12" height="16"/>
+              <rect x="942" y="218" width="12" height="16"/><rect x="964" y="218" width="12" height="16"/>
+              <rect x="1022" y="178" width="12" height="16"/><rect x="1044" y="178" width="12" height="16"/>
+            </g>
+          </g>
+
+          <!-- STANDS -->
+          <g id="stands">
+            <rect x="0" y="250" width="1200" height="120" fill="#234e94"/>
+            <rect x="0" y="250" width="1200" height="20" fill="#2c61b8"/>
+            <rect x="0" y="285" width="1200" height="20" fill="#2c61b8"/>
+            <rect x="0" y="320" width="1200" height="20" fill="#2c61b8"/>
+            <rect x="0" y="355" width="1200" height="15" fill="#1d3f78"/>
+          </g>
+          <g id="crowd"><!-- spectators injected by JS --></g>
+          <g id="signs"><!-- ACE! signs injected by JS --></g>
+
+          <!-- COURT (side view) -->
+          <g id="court">
+            <polygon points="0,370 1200,370 1200,700 0,700" fill="url(#courtGrad)"/>
+            <rect x="0" y="372" width="1200" height="14" fill="#e7c84a"/>
+            <rect x="0" y="560" width="1200" height="18" fill="#f0d24f" opacity="0.7"/>
+            <!-- baseline ground line where the ball bounces -->
+            <line id="groundLine" x1="0" y1="585" x2="1200" y2="585" stroke="#ffffff" stroke-width="4" opacity="0.65"/>
+            <!-- NET -->
+            <g id="net">
+              <rect x="592" y="430" width="16" height="160" fill="#1d6b35"/>
+              <rect x="588" y="424" width="24" height="12" fill="#ffffff"/>
+              <g stroke="#ffffff" stroke-width="1.4" opacity="0.85">
+                <line x1="592" y1="438" x2="608" y2="438"/>
+                <line x1="592" y1="452" x2="608" y2="452"/>
+                <line x1="592" y1="466" x2="608" y2="466"/>
+                <line x1="592" y1="480" x2="608" y2="480"/>
+                <line x1="592" y1="494" x2="608" y2="494"/>
+                <line x1="592" y1="508" x2="608" y2="508"/>
+                <line x1="592" y1="522" x2="608" y2="522"/>
+              </g>
+            </g>
+          </g>
+
+          <!-- LEFT PLAYER : IRENE (13 y/o, long dark ponytail) -->
+          <g id="playerIrene" transform="translate(250,470)">
+            <!-- shadow -->
+            <ellipse cx="0" cy="120" rx="48" ry="10" fill="#1d6b35" opacity="0.35"/>
+            <!-- right arm + racquet (white) -->
+            <g id="ireneArm" transform="rotate(-18)">
+              <rect x="20" y="20" width="14" height="44" rx="7" fill="#f2c79b"/>
+              <g transform="translate(34,8) rotate(20)">
+                <ellipse cx="0" cy="0" rx="20" ry="26" fill="none" stroke="#ffffff" stroke-width="6"/>
+                <ellipse cx="0" cy="0" rx="14" ry="20" fill="none" stroke="#dddddd" stroke-width="1"/>
+                <rect x="-4" y="22" width="8" height="30" rx="4" fill="#ffffff"/>
+              </g>
+            </g>
+            <!-- legs -->
+            <rect x="-20" y="78" width="16" height="46" rx="7" fill="#3a4a8c"/>
+            <rect x="6" y="78" width="16" height="46" rx="7" fill="#3a4a8c"/>
+            <rect x="-26" y="120" width="26" height="12" rx="5" fill="#ffffff"/>
+            <rect x="2" y="120" width="26" height="12" rx="5" fill="#ffffff"/>
+            <!-- body / dress -->
+            <path d="M -26 30 Q 0 18 26 30 L 34 86 Q 0 96 -34 86 Z" fill="#ff5d8f"/>
+            <!-- left arm -->
+            <rect x="-34" y="32" width="13" height="38" rx="6" fill="#f2c79b"/>
+            <!-- head -->
+            <circle cx="0" cy="0" r="22" fill="#f6cfa0"/>
+            <!-- long dark ponytail -->
+            <path d="M -18 -8 Q -42 6 -34 48 Q -26 30 -20 14 Z" fill="#3a2a1f"/>
+            <path d="M -22 -18 Q 0 -40 22 -18 Q 18 -30 0 -32 Q -18 -30 -22 -18 Z" fill="#3a2a1f"/>
+            <path d="M -22 -16 Q -24 4 -16 14 L -16 -10 Z" fill="#3a2a1f"/>
+            <path d="M 22 -16 Q 24 4 16 14 L 16 -10 Z" fill="#3a2a1f"/>
+            <!-- face -->
+            <circle cx="-7" cy="2" r="2.6" fill="#2a2a2a"/>
+            <circle cx="9" cy="2" r="2.6" fill="#2a2a2a"/>
+            <path d="M -6 12 Q 1 17 8 12" fill="none" stroke="#b5564f" stroke-width="2.4" stroke-linecap="round"/>
+          </g>
+
+          <!-- RIGHT PLAYER : PLAYER 1 (short blonde hair) -->
+          <g id="playerOpp" transform="translate(950,470)">
+            <ellipse cx="0" cy="120" rx="48" ry="10" fill="#1d6b35" opacity="0.35"/>
+            <!-- right arm + racquet -->
+            <g id="oppArm" transform="rotate(18)">
+              <rect x="-34" y="20" width="14" height="44" rx="7" fill="#e8b98a"/>
+              <g transform="translate(-34,8) rotate(-20)">
+                <ellipse cx="0" cy="0" rx="20" ry="26" fill="none" stroke="#ffd21a" stroke-width="6"/>
+                <ellipse cx="0" cy="0" rx="14" ry="20" fill="none" stroke="#e9c016" stroke-width="1"/>
+                <rect x="-4" y="22" width="8" height="30" rx="4" fill="#ffd21a"/>
+              </g>
+            </g>
+            <rect x="-20" y="78" width="16" height="46" rx="7" fill="#5a3a2a"/>
+            <rect x="6" y="78" width="16" height="46" rx="7" fill="#5a3a2a"/>
+            <rect x="-26" y="120" width="26" height="12" rx="5" fill="#ffffff"/>
+            <rect x="2" y="120" width="26" height="12" rx="5" fill="#ffffff"/>
+            <path d="M -26 30 Q 0 18 26 30 L 34 86 Q 0 96 -34 86 Z" fill="#5ec2c9"/>
+            <rect x="22" y="32" width="13" height="38" rx="6" fill="#e8b98a"/>
+            <circle cx="0" cy="0" r="22" fill="#f0c79a"/>
+            <!-- short blonde bob -->
+            <path d="M -23 -6 Q -26 -30 0 -34 Q 26 -30 23 -6 Q 16 -20 0 -20 Q -16 -20 -23 -6 Z" fill="#f4d35e"/>
+            <path d="M -23 -6 Q -25 8 -20 14 L -16 -8 Z" fill="#f4d35e"/>
+            <path d="M 23 -6 Q 25 8 20 14 L 16 -8 Z" fill="#f4d35e"/>
+            <circle cx="-8" cy="2" r="2.6" fill="#2a2a2a"/>
+            <circle cx="8" cy="2" r="2.6" fill="#2a2a2a"/>
+            <path d="M -7 12 Q 0 16 7 12" fill="none" stroke="#b5564f" stroke-width="2.4" stroke-linecap="round"/>
+          </g>
+
+          <!-- TENNIS BALL -->
+          <g id="ball" transform="translate(305,455)">
+            <circle r="15" fill="#d8f53a" stroke="#b9d400" stroke-width="1.5"/>
+            <path d="M -11 -10 Q 0 0 -11 10" fill="none" stroke="#ffffff" stroke-width="2.2"/>
+            <path d="M 11 -10 Q 0 0 11 10" fill="none" stroke="#ffffff" stroke-width="2.2"/>
+            <g class="ball-pulse"><circle r="22" fill="none" stroke="#ffffff" stroke-width="2.5" opacity="0.0"/></g>
+          </g>
+        </svg>
+
+        <!-- SCOREBOARD -->
+        <div class="scoreboard" id="scoreboard">
+          <div class="sb-header">MATCH SCORE</div>
+          <table>
+            <thead>
+              <tr><th class="sb-player">PLAYER</th><th>SET 1</th><th>SET 2</th><th>SET 3</th></tr>
+            </thead>
+            <tbody>
+              <tr class="sb-row sb-irene">
+                <td class="sb-player">IRENE SUH</td>
+                <td data-set="0">0</td><td data-set="1">0</td><td data-set="2">0</td>
+              </tr>
+              <tr class="sb-row sb-opp">
+                <td class="sb-player">PLAYER 1</td>
+                <td data-set="0">0</td><td data-set="1">0</td><td data-set="2">0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="game-prompt" id="gamePrompt">Click the tennis ball to hit it! 🎾</div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTENT : VIDEO ===================== -->
+    <section class="screen screen--content" id="screen-video">
+      <div class="content-card">
+        <span class="content-kicker">SET 1 — MATCH POINT</span>
+        <h2>Irene on the Court</h2>
+        <p class="content-sub">Watch Irene Suh in action — footage of her own game.</p>
+        <div class="video-frame">
+          <video id="ireneVideo" controls playsinline poster="">
+            <source src="irene-tennis.mp4" type="video/mp4" />
+          </video>
+          <div class="video-fallback" id="videoFallback">
+            <div class="vf-court">
+              <div class="vf-ball"></div>
+            </div>
+            <p>🎾 Irene Suh — match footage</p>
+            <span>Drop a clip named <code>irene-tennis.mp4</code> in this folder to show real video.</span>
+          </div>
+        </div>
+        <button class="btn-back" data-back>Go Back to the Game</button>
+      </div>
+    </section>
+
+    <!-- ===================== CONTENT : TENNIS HISTORY ===================== -->
+    <section class="screen screen--content" id="screen-history">
+      <div class="content-card content-card--wide">
+        <span class="content-kicker">SET 2 — THE JOURNEY</span>
+        <h2>Irene Suh's Tennis History</h2>
+        <p class="content-sub">Every champion starts somewhere. Here's the road so far.</p>
+        <div class="history-grid">
+          <figure class="history-item">
+            <div class="ph ph-1">🎾</div>
+            <figcaption><b>Age 8 — First Racquet</b><br/>Picked up a racquet at a local club and never put it down.</figcaption>
+          </figure>
+          <figure class="history-item">
+            <div class="ph ph-2">🏫</div>
+            <figcaption><b>Age 11 — Junior League</b><br/>Joined her first competitive junior league and reached the semifinals.</figcaption>
+          </figure>
+          <figure class="history-item">
+            <div class="ph ph-3">🏆</div>
+            <figcaption><b>Age 12 — Regional Champion</b><br/>Won her first regional title with a straight-sets victory.</figcaption>
+          </figure>
+          <figure class="history-item">
+            <div class="ph ph-4">🇰🇷</div>
+            <figcaption><b>Age 13 — National Finalist</b><br/>Now competing in the 2026 South Korea Open Final.</figcaption>
+          </figure>
+        </div>
+        <button class="btn-back" data-back>Go Back to the Game</button>
+      </div>
+    </section>
+
+    <!-- ===================== CONTENT : REASONS ===================== -->
+    <section class="screen screen--content" id="screen-reasons">
+      <div class="content-card">
+        <span class="content-kicker">SET 3 — WON! 🏆</span>
+        <h2>Why Irene Started Playing Tennis</h2>
+        <p class="content-sub">The story behind the swing.</p>
+        <ul class="reasons-list">
+          <li><span class="r-emoji">❤️</span><div><b>For the love of the game</b><br/>The thrill of a perfectly timed shot is unmatched.</div></li>
+          <li><span class="r-emoji">💪</span><div><b>Discipline & focus</b><br/>Tennis taught her patience, resilience, and how to stay calm under pressure.</div></li>
+          <li><span class="r-emoji">👨‍👩‍👧</span><div><b>Family inspiration</b><br/>Watching matches with her family sparked the dream.</div></li>
+          <li><span class="r-emoji">🌏</span><div><b>To go the distance</b><br/>She wants to represent Korea on the world stage one day.</div></li>
+        </ul>
+        <button class="btn-results" id="btnLookResults">Look at Results</button>
+      </div>
+    </section>
+
+    <!-- ===================== SCREEN 6 : PODIUM ===================== -->
+    <section class="screen screen--podium" id="screen-podium">
+      <div class="podium-bg"></div>
+      <div class="podium-content">
+        <h2 class="podium-title">2026 South Korea Open — Final Results</h2>
+
+        <div class="podium-stage">
+          <!-- 2nd -->
+          <div class="podium-col col-2">
+            <div class="medalist">
+              <div class="medal silver">🥈</div>
+              <div class="winner-face neutral"></div>
+              <span class="winner-name">Player 1</span>
+            </div>
+            <div class="block block-2"><span>2</span></div>
+          </div>
+          <!-- 1st -->
+          <div class="podium-col col-1">
+            <div class="medalist champ">
+              <div class="medal gold">🥇</div>
+              <div class="winner-face happy"></div>
+              <span class="winner-name">Irene Suh</span>
+              <div class="confetti" id="confetti"></div>
+            </div>
+            <div class="block block-1"><span>1</span></div>
+          </div>
+          <!-- 3rd -->
+          <div class="podium-col col-3">
+            <div class="medalist">
+              <div class="medal bronze">🥉</div>
+              <div class="winner-face neutral two"></div>
+              <span class="winner-name">Player 2</span>
+            </div>
+            <div class="block block-3"><span>3</span></div>
+          </div>
+        </div>
+
+        <div class="podium-text">
+          <p><b>Irene Suh — Champion. 🏆</b></p>
+          <p>This medal didn't come easy. Years of early-morning practices, blistered hands, lost matches, and relentless drills brought Irene here. Every serve, every sprint to the net, every late-night film session paid off in the 2026 South Korea Open Final. Hard work, heart, and an unshakable love for the game made her a champion.</p>
+        </div>
+        <button class="btn-restart" id="btnRestart">Play Again</button>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Screen flash overlay used on ball-bounce transitions -->
+  <div class="flash" id="flash"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

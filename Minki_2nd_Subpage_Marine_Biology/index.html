@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Into the Deep — A Descent Through the Ocean Zones</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===== Rod tip at the surface the line stays attached to ===== -->
+  <div id="surface-rod" aria-hidden="true">
+    <svg viewBox="0 0 220 120" width="220" height="120">
+      <!-- boat edge -->
+      <path d="M0 96 q70 22 150 6 l0 26 -150 0Z" fill="#8c2f1f"/>
+      <rect x="0" y="92" width="150" height="8" fill="#f4f4f6"/>
+      <!-- rod angling out over the water -->
+      <line x1="40" y1="90" x2="150" y2="14" stroke="#5a3b22" stroke-width="6" stroke-linecap="round"/>
+      <!-- reel + line guides -->
+      <circle cx="60" cy="80" r="9" fill="#cfd8e3"/>
+      <circle cx="150" cy="14" r="5" fill="#cfd8e3"/>
+    </svg>
+  </div>
+
+  <!-- ===== Fixed bait + fishing line that follows us down the zones ===== -->
+  <div id="sinking-bait" aria-hidden="true">
+    <div class="fishing-line"></div>
+    <svg class="lure" viewBox="0 0 120 70" width="80" height="46">
+      <!-- fake-fish lure body -->
+      <ellipse cx="55" cy="35" rx="40" ry="20" fill="#ff5d8f"/>
+      <ellipse cx="55" cy="35" rx="40" ry="20" fill="url(#lureShine)"/>
+      <path d="M95 35 L120 18 L116 35 L120 52 Z" fill="#ff7aa6"/>
+      <circle cx="30" cy="30" r="6" fill="#fff"/>
+      <circle cx="29" cy="31" r="3" fill="#1c1c2e"/>
+      <path d="M40 35 q10 -10 22 0 q-12 8 -22 0Z" fill="#ffd166" opacity="0.85"/>
+      <!-- treble hook -->
+      <path d="M70 53 q4 14 -4 16 q-7 1 -7 -6" stroke="#cfd8e3" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <path d="M62 69 l-4 4 M62 69 l4 3" stroke="#cfd8e3" stroke-width="2.4" stroke-linecap="round"/>
+      <defs>
+        <linearGradient id="lureShine" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.55"/>
+          <stop offset="60%" stop-color="#ffffff" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <div class="bubbles">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <!-- progress depth gauge -->
+  <div id="depth-gauge" aria-hidden="true">
+    <span class="depth-value">0 m</span>
+    <div class="depth-track"><div class="depth-fill"></div></div>
+  </div>
+
+  <!-- ============================ SCREEN 1 — HERO ============================ -->
+  <section id="hero" class="screen">
+    <div class="sky">
+      <div class="sun"></div>
+      <div class="cloud cloud--1"></div>
+      <div class="cloud cloud--2"></div>
+      <div class="cloud cloud--3"></div>
+    </div>
+
+    <div class="sea">
+      <div class="sea-shimmer"></div>
+    </div>
+
+    <!-- girl on the fishing vessel -->
+    <div class="scene">
+      <svg id="cast-bait" class="cast-bait" viewBox="0 0 120 70" width="54" height="32" aria-hidden="true">
+        <ellipse cx="55" cy="35" rx="40" ry="20" fill="#ff5d8f"/>
+        <path d="M95 35 L120 18 L116 35 L120 52 Z" fill="#ff7aa6"/>
+        <circle cx="30" cy="30" r="6" fill="#fff"/><circle cx="29" cy="31" r="3" fill="#1c1c2e"/>
+      </svg>
+
+      <div class="boat">
+        <svg viewBox="0 0 520 420" class="girl" xmlns="http://www.w3.org/2000/svg">
+          <!-- rod is rotated by JS around the girl's hands -->
+          <g id="rod-group">
+            <line x1="250" y1="250" x2="470" y2="60" stroke="#5a3b22" stroke-width="7" stroke-linecap="round"/>
+            <line x1="252" y1="248" x2="258" y2="280" stroke="#7a5230" stroke-width="9" stroke-linecap="round"/>
+            <circle cx="470" cy="60" r="6" fill="#cfd8e3"/>
+          </g>
+
+          <!-- legs -->
+          <path d="M205 300 q-8 60 -4 95 l26 0 q4 -45 8 -78Z" fill="#1c1c28"/>
+          <path d="M243 300 q6 55 18 92 l24 -6 q-12 -50 -16 -86Z" fill="#262633"/>
+          <!-- shoes -->
+          <path d="M197 392 q-6 14 12 16 l30 0 q4 -12 -6 -16Z" fill="#f4f4f6"/>
+          <path d="M258 388 q0 16 20 16 l26 -6 q0 -12 -10 -14Z" fill="#f4f4f6"/>
+
+          <!-- torso: pink athletic shirt -->
+          <path d="M188 188 q62 -26 116 0 q14 70 -2 120 q-58 20 -112 0 q-16 -56 -2 -120Z" fill="#ff6fa5"/>
+          <path d="M188 188 q62 -26 116 0 q4 22 4 40 q-62 18 -124 0 q0 -20 4 -40Z" fill="#ff85b5"/>
+          <!-- arms reaching up to hold rod -->
+          <path d="M285 205 q40 -10 -33 -40 q-8 8 -4 18 q26 18 25 30Z" fill="#ff6fa5"/>
+          <path d="M250 245 q18 6 12 30 q-10 6 -16 -2 q-6 -16 4 -28Z" fill="#f2b48a"/>
+          <circle cx="252" cy="250" r="13" fill="#f2b48a"/>
+
+          <!-- neck + head -->
+          <rect x="232" y="150" width="26" height="40" rx="10" fill="#f2b48a"/>
+          <circle cx="245" cy="128" r="40" fill="#f7c39c"/>
+          <!-- hair -->
+          <path d="M205 128 q0 -52 44 -52 q44 0 40 52 q-6 -28 -40 -28 q-36 0 -44 28Z" fill="#3a2a1d"/>
+          <path d="M205 128 q-6 40 8 70 q6 -34 0 -70Z" fill="#3a2a1d"/>
+          <path d="M285 128 q10 38 -4 72 q-10 -36 -2 -72Z" fill="#3a2a1d"/>
+          <!-- face -->
+          <circle cx="234" cy="126" r="4" fill="#1c1c28"/>
+          <circle cx="258" cy="126" r="4" fill="#1c1c28"/>
+          <path d="M236 142 q9 8 18 0" stroke="#b5663f" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <circle cx="226" cy="136" r="5" fill="#ff9db8" opacity="0.6"/>
+          <circle cx="266" cy="136" r="5" fill="#ff9db8" opacity="0.6"/>
+        </svg>
+
+        <!-- the vessel hull -->
+        <div class="hull">
+          <div class="hull-stripe"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-text">
+      <h1>Into the Deep</h1>
+      <p>A descent through the ocean's five layers of light.</p>
+    </div>
+
+    <button id="cast-btn" class="cast-prompt">
+      <span class="ripple-dot"></span>
+      Tap anywhere to cast your line
+    </button>
+
+    <div class="scroll-cue" id="scroll-cue">
+      <span>Scroll to sink</span>
+      <div class="chevron"></div>
+    </div>
+  </section>
+
+  <!-- ============================ SCREEN 2 — SUNLIGHT ============================ -->
+  <section id="sunlight" class="screen zone" data-zone="Sunlight Zone" data-depth="0–200 m">
+    <div class="zone-label">
+      <span class="zone-eyebrow">Epipelagic</span>
+      <h2>Sunlight Zone</h2>
+      <span class="zone-depth">0 – 200 m</span>
+    </div>
+
+    <figure class="creature creature--left reveal">
+      <img src="images/Sea_lion_sunlight_zone.png" alt="Sea lion" />
+      <figcaption class="memo">
+        <strong>Sea Lion</strong>
+        Playful and fast, sea lions dive here where sunlight still fuels rich blooms of life.
+      </figcaption>
+    </figure>
+
+    <figure class="creature creature--right reveal">
+      <img src="images/Whale_shark_sunlight_zone.png" alt="Whale shark" />
+      <figcaption class="memo">
+        <strong>Whale Shark</strong>
+        The gentle giant — the largest fish alive — filter-feeds on plankton near the surface.
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- ============================ SCREEN 3 — TWILIGHT ============================ -->
+  <section id="twilight" class="screen zone" data-zone="Twilight Zone" data-depth="200–1000 m">
+    <div class="zone-label">
+      <span class="zone-eyebrow">Mesopelagic</span>
+      <h2>Twilight Zone</h2>
+      <span class="zone-depth">200 – 1000 m</span>
+    </div>
+
+    <div class="info-card reveal">
+      <img src="images/crab_twilight_zone.png" alt="Deep-sea crab on a stone" />
+      <div class="info-card-body">
+        <h3>Fading Light</h3>
+        <p>Only a faint blue glow survives here. Photosynthesis stops, and animals begin to make their own light to hunt, hide, and find one another.</p>
+      </div>
+    </div>
+
+    <figure class="creature creature--right reveal">
+      <img src="images/Sperm_whale_twilight_zone.png" alt="Sperm whale" />
+      <figcaption class="memo">
+        <strong>Sperm Whale</strong>
+        Dives over 1000 m on a single breath to hunt squid in near-total darkness.
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- ============================ SCREEN 4 — MIDNIGHT ============================ -->
+  <section id="midnight" class="screen zone" data-zone="Midnight Zone" data-depth="1000–4000 m">
+    <div class="zone-label">
+      <span class="zone-eyebrow">Bathypelagic</span>
+      <h2>Midnight Zone</h2>
+      <span class="zone-depth">1000 – 4000 m</span>
+    </div>
+
+    <div class="info-card reveal">
+      <img src="images/colossal_squid_midnight_zone.png" alt="Colossal squid" />
+      <div class="info-card-body">
+        <h3>Eternal Night</h3>
+        <p>No sunlight reaches this far. The water is icy and the pressure crushing. Life here glows with bioluminescence to lure prey and startle predators.</p>
+      </div>
+    </div>
+
+    <figure class="creature creature--right reveal">
+      <img src="images/angler_fish_midnight_zone.png" alt="Anglerfish" />
+      <figcaption class="memo">
+        <strong>Anglerfish</strong>
+        Dangles a glowing lure from its head to draw curious prey into its jaws.
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- ============================ SCREEN 5 — ABYSSAL ============================ -->
+  <section id="abyss" class="screen zone" data-zone="Abyssal Zone" data-depth="4000–6000 m">
+    <div class="zone-label">
+      <span class="zone-eyebrow">Abyssopelagic</span>
+      <h2>Abyssal Zone</h2>
+      <span class="zone-depth">4000 – 6000 m</span>
+    </div>
+
+    <figure class="creature creature--left reveal">
+      <img src="images/Frilled_Shark_Abyss_zone.png" alt="Frilled shark" />
+      <figcaption class="memo">
+        <strong>Frilled Shark</strong>
+        A living fossil with frilly gills and rows of needle teeth, nearly unchanged for millions of years.
+      </figcaption>
+    </figure>
+
+    <figure class="creature creature--right reveal">
+      <img src="images/Sea_cucumbers_abyss_zone.png" alt="Sea cucumbers" />
+      <figcaption class="memo">
+        <strong>Sea Cucumbers</strong>
+        The vacuum cleaners of the seabed, recycling nutrients in the cold, still dark.
+      </figcaption>
+    </figure>
+
+    <div class="seafloor">
+      <div class="seafloor-text reveal">
+        <h2>You've Reached the Floor!</h2>
+        <p>You've reached the end of the ocean, but the end only means the beginning.</p>
+        <p>I know that this is the beginning of exploring the academic world.</p>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

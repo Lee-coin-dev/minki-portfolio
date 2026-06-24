@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minki — Flutist Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ===== Theatrical backdrop: opened red stage curtains (fixed behind everything) ===== -->
+  <div class="theater" aria-hidden="true">
+    <div class="theater__wall"></div>
+    <div class="theater__floor"></div>
+    <div class="valance">
+      <span class="valance__fringe"></span>
+    </div>
+    <div class="curtain curtain--left">
+      <span class="curtain__sash"></span>
+    </div>
+    <div class="curtain curtain--right">
+      <span class="curtain__sash"></span>
+    </div>
+  </div>
+
+  <!-- Right-side progress dots -->
+  <nav class="scene-rail" aria-label="Section navigation">
+    <span class="rail-dot is-active" data-scene="1"></span>
+    <span class="rail-dot" data-scene="2"></span>
+    <span class="rail-dot" data-scene="3"></span>
+  </nav>
+
+  <!-- ============ SCREEN 1 + 2 — STAGE (pinned, scroll-zoom into "ready", key glows) ============ -->
+  <section class="scene scene-stage" id="stage">
+    <div class="stage-pin">
+
+      <!-- top-left button -->
+      <button class="cta-pick" id="ctaPick">Click on either flute or piccolo</button>
+
+      <!-- floating instruments (Screen 1) -->
+      <div class="floaters" id="floaters">
+        <button class="instrument instrument--flute" id="pickFlute" aria-label="Choose flute">
+          <div class="instr-art" data-instr="flute"></div>
+          <span class="instr-label">flute</span>
+        </button>
+        <button class="instrument instrument--piccolo" id="pickPiccolo" aria-label="Choose piccolo">
+          <div class="instr-art" data-instr="piccolo"></div>
+          <span class="instr-label">piccolo</span>
+        </button>
+      </div>
+
+      <!-- the performer (gets ready + zoom) -->
+      <div class="stage-scaler" id="stageScaler">
+        <div class="girl-layer girl-layer--standing" data-girl="standing"></div>
+        <div class="girl-layer girl-layer--playing" data-girl="playing"></div>
+      </div>
+
+      <p class="stage-caption" id="capScroll">Scroll down — she's getting ready to play</p>
+      <p class="stage-caption stage-caption--alt" id="capKey">Click the glowing key</p>
+
+      <div class="scroll-cue scroll-cue--stage" id="stageScrollCue">
+        <span>scroll</span>
+        <span class="scroll-cue__arrow">&#8595;</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN 3 — DESCRIPTIONS (revealed after video; flute rises) ============ -->
+  <section class="scene scene-desc" id="descriptions" hidden>
+    <div class="desc-flute" id="descFlute">
+      <div class="instr-art instr-art--big" data-instr="flute" data-glow-key="2"></div>
+    </div>
+
+    <div class="desc-content">
+      <header class="desc-head">
+        <span class="kicker">Second Movement</span>
+        <h2 class="desc-title">A Voice That Grew With Me</h2>
+      </header>
+
+      <div class="desc-grid">
+        <div class="desc-photos">
+          <figure class="photo"><div class="photo-fill photo-fill--1"></div></figure>
+          <figure class="photo"><div class="photo-fill photo-fill--2"></div></figure>
+        </div>
+        <div class="desc-text">
+          <p>I began studying the flute at the age of seven, drawn to the way a single breath could turn into a clear, singing line. What started as curiosity quickly became the discipline that has shaped my days.</p>
+          <p>Over the past decade I have performed in school ensembles, regional youth orchestras, and solo recitals. Each performance taught me to listen more carefully &mdash; to my own tone, and to the musicians around me.</p>
+          <p>The flute has given me patience, precision, and a quiet confidence. I hope to carry that voice forward and keep growing as a musician at your school.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VIDEO POP-UP (modal) ============ -->
+  <div class="modal" id="videoModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Performance video">
+    <div class="modal__backdrop" id="modalBackdrop"></div>
+    <div class="modal__panel">
+      <button class="modal__close" id="modalClose" aria-label="Close video">&times;</button>
+      <span class="kicker">Performance</span>
+      <h3 class="modal__title">Watch Minki Play</h3>
+      <div class="video-frame" id="videoFrame">
+        <div class="video-poster"></div>
+        <button class="play-btn" id="playBtn" aria-label="Play video">
+          <svg viewBox="0 0 80 80" width="80" height="80" aria-hidden="true">
+            <circle cx="40" cy="40" r="38" class="play-ring" />
+            <path d="M32 26 L56 40 L32 54 Z" class="play-tri" />
+          </svg>
+        </button>
+        <p class="video-meta">2:43 &middot; Flute Solo &middot; Spring Recital</p>
+      </div>
+      <p class="modal__hint">When you're done, close this and scroll down.</p>
+    </div>
+  </div>
+
+  <!-- ===== Reusable SVG sources (hidden, cloned by JS) ===== -->
+  <div id="svg-templates" hidden>
+
+    <!-- GIRL (standing, formal stage dress) -->
+    <svg class="tpl" data-tpl="girl-standing" viewBox="0 0 300 480" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="hairGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#3b2a24"/><stop offset="1" stop-color="#241712"/>
+        </linearGradient>
+        <linearGradient id="gownGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#1d2b4d"/><stop offset="0.6" stop-color="#15203b"/><stop offset="1" stop-color="#0c1326"/>
+        </linearGradient>
+      </defs>
+      <!-- gown skirt (formal, floor length) -->
+      <path d="M150 180 C112 188 96 240 84 360 C74 440 70 472 70 472 L230 472 C230 472 226 440 216 360 C204 240 188 188 150 180 Z" fill="url(#gownGrad)"/>
+      <path d="M150 200 C150 320 150 472 150 472" stroke="rgba(255,255,255,0.06)" stroke-width="6" fill="none"/>
+      <!-- hair back -->
+      <path d="M95 120 C70 150 70 300 96 372 L120 372 C108 300 110 180 150 150 C190 180 192 300 180 372 L204 372 C230 300 230 150 205 120 Z" fill="url(#hairGrad)"/>
+      <!-- neck -->
+      <rect x="138" y="150" width="24" height="40" rx="12" fill="#e7c3a6"/>
+      <!-- bodice / shoulders -->
+      <path d="M150 178 C120 184 104 210 100 240 L200 240 C196 210 180 184 150 178 Z" fill="#22325a"/>
+      <!-- arms at side -->
+      <path d="M104 232 C92 280 92 330 104 360 L120 354 C112 326 112 282 120 244 Z" fill="#e7c3a6"/>
+      <path d="M196 232 C208 280 208 330 196 360 L180 354 C188 326 188 282 180 244 Z" fill="#e7c3a6"/>
+      <!-- head -->
+      <ellipse cx="150" cy="118" rx="46" ry="52" fill="#f0cdb0"/>
+      <!-- hair front -->
+      <path d="M104 110 C100 70 130 48 150 48 C170 48 200 70 196 110 C196 92 178 78 150 80 C150 80 150 96 150 96 C150 96 142 80 128 84 C112 88 106 98 104 110 Z" fill="url(#hairGrad)"/>
+      <!-- face -->
+      <circle cx="134" cy="116" r="4.2" fill="#3a2a24"/>
+      <circle cx="166" cy="116" r="4.2" fill="#3a2a24"/>
+      <path d="M142 140 Q150 146 158 140" stroke="#c98b76" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </svg>
+
+    <!-- GIRL (playing) — arms + flute group ends ON her lips -->
+    <svg class="tpl" data-tpl="girl-playing" viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="hairGrad2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#3b2a24"/><stop offset="1" stop-color="#241712"/>
+        </linearGradient>
+        <linearGradient id="gownGrad2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#1d2b4d"/><stop offset="0.6" stop-color="#15203b"/><stop offset="1" stop-color="#0c1326"/>
+        </linearGradient>
+        <linearGradient id="fluteGrad2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fdfdff"/><stop offset="0.5" stop-color="#c9ccd6"/><stop offset="1" stop-color="#8e92a0"/>
+        </linearGradient>
+      </defs>
+
+      <!-- gown skirt -->
+      <path d="M180 210 C142 220 126 270 114 380 C104 452 100 478 100 478 L262 478 C262 478 258 452 248 380 C236 270 220 220 182 210 Z" fill="url(#gownGrad2)"/>
+      <!-- hair back -->
+      <path d="M126 110 C100 142 102 300 128 372 L152 372 C140 300 142 175 180 150 C218 175 220 300 208 372 L232 372 C258 300 260 142 234 110 Z" fill="url(#hairGrad2)"/>
+      <!-- bodice -->
+      <path d="M180 198 C150 204 134 226 130 256 L230 256 C226 226 210 204 180 198 Z" fill="#22325a"/>
+      <!-- neck -->
+      <rect x="168" y="150" width="24" height="40" rx="12" fill="#e7c3a6"/>
+      <!-- head -->
+      <ellipse cx="180" cy="118" rx="46" ry="52" fill="#f0cdb0"/>
+      <!-- hair front -->
+      <path d="M134 110 C130 70 160 48 180 48 C200 48 230 70 226 110 C226 92 208 78 180 80 C180 80 180 96 180 96 C180 96 172 80 158 84 C142 88 136 98 134 110 Z" fill="url(#hairGrad2)"/>
+      <!-- eyes -->
+      <circle cx="164" cy="116" r="4.2" fill="#3a2a24"/>
+      <circle cx="196" cy="116" r="4.2" fill="#3a2a24"/>
+
+      <!-- MOVING GROUP: arms + flute. Drawn in final 'on the lips' position;
+           JS rotates it down at scroll 0 and swings it up to the lips. -->
+      <g class="held-flute" data-held-flute>
+        <!-- upper arms from shoulders up to the instrument -->
+        <path d="M150 240 C140 210 150 186 172 176 L184 192 C168 200 162 220 166 244 Z" fill="#e7c3a6"/>
+        <path d="M214 250 C236 232 268 210 300 200 L308 220 C280 232 252 252 230 268 Z" fill="#e7c3a6"/>
+
+        <g class="flute-rot" transform="rotate(11 180 150)">
+          <!-- body -->
+          <rect x="150" y="141" width="300" height="18" rx="9" fill="url(#fluteGrad2)" stroke="#7a7d8a" stroke-width="1"/>
+          <!-- head joint + lip plate (sits at her lips) -->
+          <rect x="150" y="139" width="48" height="22" rx="8" fill="#dfe2ea" stroke="#9a9dab" stroke-width="1"/>
+          <ellipse cx="176" cy="150" rx="8" ry="5" fill="#3a3d49"/>
+          <!-- keys -->
+          <circle class="fkey" data-key="1" cx="236" cy="150" r="10" fill="#e9ebf1" stroke="#8b8e9b" stroke-width="2"/>
+          <circle class="fkey" data-key="2" cx="276" cy="150" r="9"  fill="#e9ebf1" stroke="#8b8e9b" stroke-width="2"/>
+          <circle class="fkey" data-key="3" cx="312" cy="150" r="9"  fill="#e9ebf1" stroke="#8b8e9b" stroke-width="2"/>
+          <circle class="fkey" data-key="4" cx="350" cy="150" r="9"  fill="#e9ebf1" stroke="#8b8e9b" stroke-width="2"/>
+          <circle class="fkey" data-key="5" cx="388" cy="150" r="9"  fill="#e9ebf1" stroke="#8b8e9b" stroke-width="2"/>
+          <rect x="424" y="143" width="6" height="14" rx="2" fill="#b8bbc6"/>
+          <rect x="436" y="143" width="6" height="14" rx="2" fill="#b8bbc6"/>
+        </g>
+
+        <!-- hands on the flute -->
+        <ellipse cx="180" cy="176" rx="13" ry="10" fill="#e6c1a3"/>
+        <ellipse cx="300" cy="198" rx="13" ry="10" fill="#e6c1a3"/>
+      </g>
+    </svg>
+
+    <!-- FLUTE (standalone, horizontal) -->
+    <svg class="tpl" data-tpl="flute" viewBox="0 0 520 90" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fluteGradH" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ffffff"/><stop offset="0.5" stop-color="#cfd2dc"/><stop offset="1" stop-color="#8e92a0"/>
+        </linearGradient>
+      </defs>
+      <rect x="20" y="36" width="480" height="20" rx="10" fill="url(#fluteGradH)" stroke="#7a7d8a" stroke-width="1"/>
+      <rect x="20" y="33" width="60" height="26" rx="9" fill="#e2e5ed" stroke="#9a9dab" stroke-width="1"/>
+      <ellipse cx="48" cy="46" rx="11" ry="6" fill="#3a3d49"/>
+      <circle class="fkey" data-key="1" cx="150" cy="46" r="11" fill="#eceef3" stroke="#8b8e9b" stroke-width="2"/>
+      <circle class="fkey" data-key="2" cx="200" cy="46" r="10" fill="#eceef3" stroke="#8b8e9b" stroke-width="2"/>
+      <circle class="fkey" data-key="3" cx="248" cy="46" r="10" fill="#eceef3" stroke="#8b8e9b" stroke-width="2"/>
+      <circle class="fkey" data-key="4" cx="296" cy="46" r="10" fill="#eceef3" stroke="#8b8e9b" stroke-width="2"/>
+      <circle class="fkey" data-key="5" cx="344" cy="46" r="10" fill="#eceef3" stroke="#8b8e9b" stroke-width="2"/>
+      <circle class="fkey" data-key="6" cx="392" cy="46" r="10" fill="#eceef3" stroke="#8b8e9b" stroke-width="2"/>
+      <rect x="436" y="38" width="7" height="16" rx="2" fill="#b8bbc6"/>
+      <rect x="452" y="38" width="7" height="16" rx="2" fill="#b8bbc6"/>
+      <rect x="468" y="38" width="7" height="16" rx="2" fill="#b8bbc6"/>
+    </svg>
+
+    <!-- PICCOLO (smaller) -->
+    <svg class="tpl" data-tpl="piccolo" viewBox="0 0 340 80" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="picGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f3ede6"/><stop offset="0.5" stop-color="#cdbfae"/><stop offset="1" stop-color="#8c7a63"/>
+        </linearGradient>
+      </defs>
+      <rect x="16" y="34" width="308" height="16" rx="8" fill="url(#picGrad)" stroke="#6f6151" stroke-width="1"/>
+      <rect x="16" y="31" width="44" height="22" rx="7" fill="#e6ddd1" stroke="#8a7a64" stroke-width="1"/>
+      <ellipse cx="36" cy="42" rx="8" ry="5" fill="#3a3128"/>
+      <circle class="fkey" cx="110" cy="42" r="8" fill="#f1ece4" stroke="#7c6c57" stroke-width="2"/>
+      <circle class="fkey" cx="146" cy="42" r="7" fill="#f1ece4" stroke="#7c6c57" stroke-width="2"/>
+      <circle class="fkey" cx="180" cy="42" r="7" fill="#f1ece4" stroke="#7c6c57" stroke-width="2"/>
+      <circle class="fkey" cx="214" cy="42" r="7" fill="#f1ece4" stroke="#7c6c57" stroke-width="2"/>
+      <circle class="fkey" cx="248" cy="42" r="7" fill="#f1ece4" stroke="#7c6c57" stroke-width="2"/>
+      <rect x="286" y="36" width="6" height="12" rx="2" fill="#a8987f"/>
+      <rect x="300" y="36" width="6" height="12" rx="2" fill="#a8987f"/>
+    </svg>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

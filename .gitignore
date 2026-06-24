@@ -1,0 +1,12 @@
+# macOS
+.DS_Store
+
+# Logs
+*.log
+terminals/
+
+# Editor
+.cursor/
+
+# Dependencies (if added later)
+node_modules/

@@ -1,0 +1,476 @@
+/* =========================================================
+   Irene Suh — 2026 South Korea Open Final (game prototype)
+   ========================================================= */
+:root{
+  --pink:#ff5d8f;
+  --purple:#6b3fa0;
+  --purple-deep:#4a2a73;
+  --yellow:#d8f53a;
+  --court-green:#2f9249;
+  --ink:#1f2440;
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+
+html,body{ height:100%; }
+
+body{
+  font-family:"Outfit", system-ui, sans-serif;
+  background:#0d1326;
+  color:#fff;
+  overflow:hidden;
+}
+
+#app{
+  position:relative;
+  width:100vw;
+  height:100vh;
+}
+
+/* ---------- screen base ---------- */
+.screen{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+}
+.screen.is-active{ display:flex; opacity:1; }
+
+/* =========================================================
+   SCREEN 1 : GAME START
+   ========================================================= */
+.screen--start{
+  background:linear-gradient(160deg,#1b8f4e 0%,#157a42 55%,#0e6234 100%);
+  overflow:hidden;
+}
+.start-court-bg{ position:absolute; inset:0; }
+.court-lines{
+  position:absolute;
+  inset:8% 12%;
+  border:5px solid rgba(255,255,255,.55);
+  border-radius:4px;
+  perspective:600px;
+  transform:rotateX(34deg) scale(1.05);
+  transform-origin:center 70%;
+}
+.cl{ position:absolute; background:rgba(255,255,255,.5); }
+.cl-net{ left:50%; top:0; width:5px; height:100%; transform:translateX(-50%); background:rgba(255,255,255,.85); }
+.cl-service-h{ left:0; top:50%; width:100%; height:4px; transform:translateY(-50%); }
+.cl-center{ left:0; top:50%; width:100%; height:0; }
+.cl-outer{ display:none; }
+
+.floating-balls{ position:absolute; inset:0; pointer-events:none; }
+.fball{
+  position:absolute;
+  width:26px; height:26px; border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, #f0ff7a, var(--yellow));
+  box-shadow:inset -3px -3px 0 rgba(0,0,0,.12);
+  opacity:.85;
+}
+
+.start-content{
+  position:relative;
+  z-index:2;
+  text-align:center;
+  padding:30px;
+}
+.tournament-tag{
+  font-size:clamp(16px,2.4vw,26px);
+  letter-spacing:.42em;
+  font-weight:700;
+  color:#eafff2;
+  text-shadow:0 2px 10px rgba(0,0,0,.35);
+  margin-bottom:6px;
+}
+.title-final{
+  font-family:"Bungee", sans-serif;
+  font-size:clamp(60px,13vw,150px);
+  line-height:.9;
+  color:#fff;
+  text-shadow:0 6px 0 #0a5a30, 0 14px 30px rgba(0,0,0,.4);
+  margin-bottom:26px;
+}
+.versus{
+  display:flex; align-items:center; justify-content:center;
+  gap:clamp(14px,3vw,40px);
+  margin-bottom:46px;
+  flex-wrap:wrap;
+}
+.player-name{
+  font-size:clamp(20px,3.4vw,40px);
+  font-weight:800;
+  padding:10px 22px;
+  border-radius:14px;
+  background:rgba(255,255,255,.12);
+  backdrop-filter:blur(4px);
+  border:2px solid rgba(255,255,255,.3);
+}
+.player-name.p-left{ color:#ffd0e0; border-color:var(--pink); }
+.player-name.p-right{ color:#cfeffc; border-color:#5ec2c9; }
+.vs{
+  font-family:"Bungee",sans-serif;
+  font-size:clamp(22px,3vw,38px);
+  color:var(--yellow);
+}
+
+.btn-start{
+  position:relative;
+  font-family:"Bungee",sans-serif;
+  font-size:clamp(22px,3vw,34px);
+  color:#1b6b39;
+  background:linear-gradient(180deg,#f6ff8a,#d8f53a);
+  border:none;
+  padding:20px 46px 20px 70px;
+  border-radius:60px;
+  cursor:pointer;
+  box-shadow:0 10px 0 #9bbd00, 0 18px 30px rgba(0,0,0,.35);
+  transition:transform .12s, box-shadow .12s;
+}
+.btn-start:hover{ transform:translateY(-3px); box-shadow:0 13px 0 #9bbd00,0 22px 36px rgba(0,0,0,.4); }
+.btn-start:active{ transform:translateY(6px); box-shadow:0 4px 0 #9bbd00,0 8px 14px rgba(0,0,0,.35); }
+.btn-ball{
+  position:absolute; left:22px; top:50%; transform:translateY(-50%);
+  width:34px; height:34px; border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#fff,#f0ff7a);
+  box-shadow:inset -3px -3px 0 rgba(0,0,0,.12);
+}
+.start-hint{
+  margin-top:20px;
+  font-size:14px;
+  letter-spacing:.12em;
+  color:rgba(255,255,255,.75);
+  text-transform:uppercase;
+}
+
+/* =========================================================
+   GAME SCREEN
+   ========================================================= */
+.screen--game{ background:#0e6234; }
+.game-stage{
+  position:relative;
+  width:100%; height:100%;
+  overflow:hidden;
+}
+#matchScene{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+}
+#ball{ cursor:pointer; }
+.ball-pulse{ transform-origin:center; }
+
+/* scoreboard */
+.scoreboard{
+  position:absolute;
+  left:50%; bottom:3%;
+  transform:translateX(-50%);
+  background:linear-gradient(180deg,var(--purple),var(--purple-deep));
+  border:3px solid #8a5cc0;
+  border-radius:14px;
+  padding:12px 16px 14px;
+  box-shadow:0 12px 30px rgba(0,0,0,.45);
+  min-width:340px;
+  z-index:5;
+}
+.sb-header{
+  text-align:center;
+  font-family:"Bungee",sans-serif;
+  font-size:13px;
+  letter-spacing:.22em;
+  color:#ffd9ef;
+  margin-bottom:8px;
+}
+.scoreboard table{ width:100%; border-collapse:collapse; }
+.scoreboard th, .scoreboard td{
+  padding:6px 12px;
+  text-align:center;
+  font-weight:700;
+  font-size:18px;
+}
+.scoreboard th{
+  font-size:11px;
+  letter-spacing:.12em;
+  color:#c9b3e6;
+  border-bottom:1px solid rgba(255,255,255,.25);
+}
+.scoreboard .sb-player{ text-align:left; }
+.sb-irene .sb-player{ color:var(--pink); }
+.sb-opp .sb-player{ color:#7fe3ea; }
+.scoreboard td[data-set]{
+  font-family:"Bungee",sans-serif;
+  background:rgba(0,0,0,.25);
+  border-radius:6px;
+}
+.score-pop{ animation:scorePop .55s ease; }
+@keyframes scorePop{
+  0%{ transform:scale(1); color:#fff; }
+  40%{ transform:scale(1.7); color:var(--yellow); }
+  100%{ transform:scale(1); }
+}
+
+.game-prompt{
+  position:absolute;
+  top:4%; left:50%;
+  transform:translateX(-50%);
+  background:rgba(0,0,0,.55);
+  border:2px solid rgba(255,255,255,.35);
+  padding:10px 22px;
+  border-radius:40px;
+  font-weight:600;
+  letter-spacing:.04em;
+  z-index:5;
+  white-space:nowrap;
+}
+
+/* =========================================================
+   CONTENT SCREENS (video / history / reasons)
+   ========================================================= */
+.screen--content{
+  background:radial-gradient(circle at 50% 0%, #28406f, #131a33 70%);
+  padding:30px;
+}
+.content-card{
+  width:min(680px,94vw);
+  max-height:92vh;
+  overflow:auto;
+  background:linear-gradient(180deg,#1f2950,#161d3a);
+  border:2px solid rgba(255,255,255,.12);
+  border-radius:24px;
+  padding:34px 38px 30px;
+  box-shadow:0 30px 70px rgba(0,0,0,.5);
+  text-align:center;
+}
+.content-card--wide{ width:min(900px,95vw); }
+.content-kicker{
+  display:inline-block;
+  font-family:"Bungee",sans-serif;
+  font-size:12px;
+  letter-spacing:.2em;
+  color:#0e1326;
+  background:var(--yellow);
+  padding:6px 14px;
+  border-radius:40px;
+  margin-bottom:14px;
+}
+.content-card h2{
+  font-size:clamp(26px,3.6vw,40px);
+  margin-bottom:8px;
+}
+.content-sub{ color:rgba(255,255,255,.7); margin-bottom:22px; }
+
+/* video */
+.video-frame{
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  border-radius:16px;
+  overflow:hidden;
+  background:#000;
+  margin-bottom:26px;
+  border:3px solid var(--court-green);
+}
+#ireneVideo{ width:100%; height:100%; object-fit:cover; display:block; }
+.video-fallback{
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:8px;
+  background:linear-gradient(135deg,#1b8f4e,#0e6234);
+  text-align:center;
+  padding:20px;
+}
+.video-fallback p{ font-size:22px; font-weight:700; }
+.video-fallback span{ font-size:13px; color:rgba(255,255,255,.8); }
+.video-fallback code{ background:rgba(0,0,0,.35); padding:2px 6px; border-radius:5px; }
+.vf-court{
+  width:120px; height:64px;
+  border:3px solid rgba(255,255,255,.6);
+  border-radius:6px;
+  position:relative;
+  margin-bottom:6px;
+}
+.vf-court::before{ content:""; position:absolute; left:50%; top:0; width:3px; height:100%; background:rgba(255,255,255,.6); }
+.vf-ball{
+  position:absolute; top:8px; left:14px;
+  width:16px; height:16px; border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#fff,var(--yellow));
+  animation:vfBounce 1.6s ease-in-out infinite;
+}
+@keyframes vfBounce{
+  0%,100%{ transform:translate(0,0); }
+  50%{ transform:translate(86px,34px); }
+}
+
+/* history */
+.history-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  margin-bottom:26px;
+}
+.history-item{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:16px;
+  padding:16px;
+  display:flex; gap:14px; align-items:center;
+  text-align:left;
+}
+.history-item .ph{
+  flex:0 0 64px; height:64px;
+  display:grid; place-items:center;
+  font-size:30px;
+  border-radius:12px;
+}
+.ph-1{ background:#2f9249; } .ph-2{ background:#3a6ad4; }
+.ph-3{ background:#d4a73a; } .ph-4{ background:#c5436e; }
+.history-item figcaption{ font-size:14px; line-height:1.4; color:rgba(255,255,255,.85); }
+
+/* reasons */
+.reasons-list{ list-style:none; text-align:left; margin-bottom:26px; }
+.reasons-list li{
+  display:flex; gap:16px; align-items:flex-start;
+  padding:14px 16px;
+  background:rgba(255,255,255,.05);
+  border-radius:14px;
+  margin-bottom:12px;
+  border:1px solid rgba(255,255,255,.1);
+}
+.r-emoji{ font-size:28px; line-height:1; }
+.reasons-list b{ color:var(--yellow); }
+
+/* buttons on content */
+.btn-back, .btn-results, .btn-restart{
+  font-family:"Bungee",sans-serif;
+  font-size:18px;
+  border:none;
+  border-radius:50px;
+  padding:16px 36px;
+  cursor:pointer;
+  transition:transform .12s, box-shadow .12s;
+}
+.btn-back{
+  color:#0e6234;
+  background:linear-gradient(180deg,#f6ff8a,#d8f53a);
+  box-shadow:0 8px 0 #9bbd00;
+}
+.btn-results{
+  color:#fff;
+  background:linear-gradient(180deg,#ff7aa8,#ff5d8f);
+  box-shadow:0 8px 0 #c43c69;
+}
+.btn-back:hover,.btn-results:hover,.btn-restart:hover{ transform:translateY(-3px); }
+.btn-back:active,.btn-results:active,.btn-restart:active{ transform:translateY(5px); box-shadow:0 3px 0 rgba(0,0,0,.3); }
+
+/* =========================================================
+   SCREEN 6 : PODIUM
+   ========================================================= */
+.screen--podium{
+  background:radial-gradient(circle at 50% -10%, #3a2a73, #160f2e 70%);
+  overflow:auto;
+}
+.podium-bg{
+  position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 38px, rgba(255,255,255,.03) 38px 40px);
+  pointer-events:none;
+}
+.podium-content{
+  position:relative; z-index:2;
+  text-align:center;
+  padding:40px 20px;
+  width:min(900px,95vw);
+}
+.podium-title{
+  font-family:"Bungee",sans-serif;
+  font-size:clamp(22px,3.4vw,40px);
+  margin-bottom:40px;
+  color:#fff;
+  text-shadow:0 4px 18px rgba(0,0,0,.5);
+}
+.podium-stage{
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+  gap:14px;
+  margin-bottom:36px;
+}
+.podium-col{ display:flex; flex-direction:column; align-items:center; }
+.medalist{ position:relative; display:flex; flex-direction:column; align-items:center; margin-bottom:8px; }
+.medal{ font-size:34px; }
+.winner-face{
+  width:64px; height:64px; border-radius:50%;
+  background:#f6cfa0;
+  position:relative;
+  margin-top:4px;
+  border:3px solid rgba(255,255,255,.4);
+}
+.winner-face::before, .winner-face::after{
+  content:""; position:absolute; width:8px; height:8px; border-radius:50%; background:#2a2a2a; top:24px;
+}
+.winner-face::before{ left:18px; } .winner-face::after{ right:18px; }
+.winner-face.happy{ background:#f6cfa0; }
+.winner-face .smile{ }
+.winner-name{ margin-top:8px; font-weight:700; font-size:15px; }
+.champ .winner-name{ color:var(--yellow); font-size:18px; }
+
+/* mouths via box-shadow trick using extra spans? use background pseudo */
+.winner-face.happy{ box-shadow:inset 0 -10px 0 -4px transparent; }
+
+.block{
+  width:120px;
+  display:grid; place-items:center;
+  font-family:"Bungee",sans-serif;
+  font-size:34px;
+  color:rgba(0,0,0,.55);
+  border-radius:8px 8px 0 0;
+  box-shadow:inset 0 6px 0 rgba(255,255,255,.25), 0 -2px 0 rgba(0,0,0,.15);
+}
+.block-1{ height:180px; background:linear-gradient(180deg,#ffe45e,#f0c419); }
+.block-2{ height:130px; background:linear-gradient(180deg,#e6e9ee,#b9c0cc); }
+.block-3{ height:96px;  background:linear-gradient(180deg,#e0a16a,#c07a3e); }
+
+.podium-text{
+  max-width:680px; margin:0 auto 28px;
+  line-height:1.7;
+  color:rgba(255,255,255,.9);
+}
+.podium-text b{ color:var(--yellow); font-size:20px; }
+
+.btn-restart{
+  color:#160f2e;
+  background:linear-gradient(180deg,#ffe45e,#f0c419);
+  box-shadow:0 8px 0 #b8920a;
+}
+
+/* confetti */
+.confetti{ position:absolute; inset:-40px -60px; pointer-events:none; }
+.cf{
+  position:absolute; top:-10px;
+  width:10px; height:14px; border-radius:2px;
+  opacity:0;
+}
+
+/* mouths (smile) for happy face */
+.winner-face.happy .mouth{}
+
+/* =========================================================
+   FLASH transition overlay
+   ========================================================= */
+.flash{
+  position:fixed; inset:0;
+  background:#fff;
+  opacity:0;
+  pointer-events:none;
+  z-index:50;
+}
+
+/* small screens */
+@media (max-width:560px){
+  .history-grid{ grid-template-columns:1fr; }
+  .scoreboard{ min-width:300px; }
+  .block{ width:88px; }
+}

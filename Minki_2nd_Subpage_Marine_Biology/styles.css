@@ -1,0 +1,503 @@
+/* =========================================================
+   Into the Deep — underwater descent prototype
+   ========================================================= */
+
+:root {
+  --sky-top: #4db8ff;
+  --sky-bottom: #bfe9ff;
+
+  --sunlight-top: #2aa3e0;
+  --sunlight-bottom: #0f6fae;
+
+  --twilight-top: #0c5a8f;
+  --twilight-bottom: #073b63;
+
+  --midnight-top: #052742;
+  --midnight-bottom: #021526;
+
+  --abyss-top: #010c18;
+  --abyss-bottom: #000305;
+
+  --memo-bg: rgba(255, 255, 255, 0.92);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Quicksand', system-ui, sans-serif;
+  color: #fff;
+  background: var(--midnight-bottom);
+  overflow-x: hidden;
+}
+
+/* lock scroll until the player casts the line */
+body.no-scroll { overflow: hidden; height: 100vh; }
+
+h1, h2, h3 { font-family: 'Fredoka', sans-serif; font-weight: 600; }
+
+.screen {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* =========================================================
+   SCREEN 1 — Hero (girl casting from the boat)
+   ========================================================= */
+#hero {
+  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 62%);
+}
+
+.sky { position: absolute; inset: 0; z-index: 1; }
+
+.sun {
+  position: absolute;
+  top: 8%;
+  right: 14%;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff8d6 0%, #ffe680 45%, rgba(255,230,128,0) 72%);
+  box-shadow: 0 0 90px 40px rgba(255, 236, 150, 0.7);
+  animation: sun-pulse 6s ease-in-out infinite;
+}
+@keyframes sun-pulse { 50% { transform: scale(1.06); } }
+
+.cloud {
+  position: absolute;
+  background: #fff;
+  border-radius: 100px;
+  filter: blur(1px);
+  opacity: 0.92;
+}
+.cloud::before, .cloud::after {
+  content: ""; position: absolute; background: #fff; border-radius: 50%;
+}
+.cloud--1 { top: 14%; left: -160px; width: 180px; height: 46px; animation: drift 38s linear infinite; }
+.cloud--2 { top: 26%; left: -240px; width: 130px; height: 38px; animation: drift 52s linear infinite; }
+.cloud--3 { top: 9%;  left: -200px; width: 150px; height: 40px; animation: drift 64s linear infinite; }
+.cloud::before { width: 70px; height: 70px; top: -28px; left: 26px; }
+.cloud::after  { width: 56px; height: 56px; top: -20px; left: 86px; }
+@keyframes drift { to { transform: translateX(120vw); } }
+
+/* ocean band at the bottom of the hero */
+.sea {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 32%;
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(64,170,230,0.65) 0%, #1f86c4 40%, #0f6fae 100%);
+  border-top: 3px solid rgba(255,255,255,0.45);
+}
+.sea-shimmer {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(95deg, rgba(255,255,255,0.10) 0 2px, transparent 2px 26px);
+  animation: shimmer 9s linear infinite;
+}
+@keyframes shimmer { to { background-position: 200px 0; } }
+
+/* boat + girl */
+.scene {
+  position: absolute;
+  left: 9%;
+  bottom: 19%;
+  z-index: 3;
+  transform-origin: bottom center;
+  animation: bob 4.5s ease-in-out infinite;
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50%      { transform: translateY(-10px) rotate(1deg); }
+}
+
+.girl { width: 280px; height: auto; display: block; overflow: visible; }
+#rod-group { transform-box: fill-box; transform-origin: 252px 250px; }
+
+.boat { position: relative; }
+.hull {
+  position: relative;
+  width: 300px;
+  height: 74px;
+  margin-top: -24px;
+  margin-left: -14px;
+  background: linear-gradient(180deg, #c4452f 0%, #8c2f1f 100%);
+  border-radius: 6px 70px 70px 70px / 6px 90px 90px 90px;
+  box-shadow: 0 14px 30px rgba(0,0,0,0.25);
+}
+.hull-stripe {
+  position: absolute; top: 16px; left: 0; right: 0; height: 12px;
+  background: #f4f4f6;
+}
+
+/* the bait that flies off the rod when casting */
+.cast-bait {
+  position: absolute;
+  left: 250px;
+  top: 4px;
+  z-index: 5;
+  opacity: 0;
+}
+
+.hero-text {
+  position: absolute;
+  top: 16%;
+  left: 8%;
+  z-index: 4;
+  color: #06324f;
+  text-shadow: 0 2px 18px rgba(255,255,255,0.4);
+}
+.hero-text h1 { font-size: clamp(2.6rem, 6vw, 5rem); line-height: 1; letter-spacing: -1px; }
+.hero-text p  { font-size: clamp(1rem, 2vw, 1.4rem); margin-top: 0.6rem; font-weight: 500; }
+
+/* tap-to-cast prompt */
+.cast-prompt {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 26px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.85);
+  color: #06324f;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+  transition: transform 0.25s var(--ease), opacity 0.4s ease;
+}
+.cast-prompt:hover { transform: translateX(-50%) translateY(-3px); }
+.ripple-dot {
+  width: 12px; height: 12px; border-radius: 50%; background: #ff5d8f;
+  box-shadow: 0 0 0 0 rgba(255,93,143,0.6);
+  animation: ripple 1.8s ease-out infinite;
+}
+@keyframes ripple {
+  0%   { box-shadow: 0 0 0 0 rgba(255,93,143,0.6); }
+  100% { box-shadow: 0 0 0 16px rgba(255,93,143,0); }
+}
+
+/* scroll cue, hidden until cast */
+.scroll-cue {
+  position: absolute;
+  bottom: 26px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  text-align: center;
+  color: #06324f;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+}
+.chevron {
+  width: 16px; height: 16px; margin: 8px auto 0;
+  border-right: 3px solid currentColor;
+  border-bottom: 3px solid currentColor;
+  transform: rotate(45deg);
+  animation: bounce 1.6s infinite;
+}
+@keyframes bounce { 0%,100%{ transform: rotate(45deg) translate(0,0);} 50%{ transform: rotate(45deg) translate(5px,5px);} }
+
+/* splash made by JS */
+.splash {
+  position: fixed;
+  z-index: 30;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  pointer-events: none;
+}
+
+/* =========================================================
+   Surface rod + fixed sinking bait (zones 2–5)
+   ========================================================= */
+/* a rod tip pinned at the surface so the line stays attached to a rod */
+#surface-rod {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-150px); /* aligns the line-guide ring with the 50% line */
+  z-index: 41;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.35));
+}
+
+#sinking-bait {
+  position: fixed;
+  top: 44%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 40;
+  opacity: 0;
+  pointer-events: none;
+}
+/* line runs from the bait all the way up to the rod tip at the surface */
+.fishing-line {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: 2px;
+  height: 100vh;
+  background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.4) 100%);
+  transform: translateX(-50%);
+}
+.lure { display: block; animation: lure-sway 3.5s ease-in-out infinite; transform-origin: top center; }
+@keyframes lure-sway { 0%,100%{ transform: rotate(-4deg);} 50%{ transform: rotate(4deg);} }
+
+.bubbles { position: absolute; top: -6px; left: 50%; }
+.bubbles span {
+  position: absolute;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+  animation: rise 3.4s linear infinite;
+}
+.bubbles span:nth-child(2) { left: 10px; width: 5px; height: 5px; animation-delay: 1.1s; }
+.bubbles span:nth-child(3) { left: -12px; width: 4px; height: 4px; animation-delay: 2s; }
+@keyframes rise {
+  0%   { transform: translateY(0) scale(1); opacity: 0.7; }
+  100% { transform: translateY(-120px) scale(0.4); opacity: 0; }
+}
+
+/* =========================================================
+   Depth gauge
+   ========================================================= */
+#depth-gauge {
+  position: fixed;
+  top: 50%; right: 26px;
+  transform: translateY(-50%);
+  z-index: 45;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.depth-value { font-family: 'Fredoka', sans-serif; font-size: 0.85rem; letter-spacing: 0.5px; }
+.depth-track {
+  width: 6px; height: 200px; border-radius: 6px;
+  background: rgba(255,255,255,0.18);
+  overflow: hidden;
+}
+.depth-fill {
+  width: 100%; height: 0%;
+  background: linear-gradient(180deg, #7fd7ff, #ff5d8f);
+}
+
+/* =========================================================
+   Zone sections (2–5)
+   ========================================================= */
+.zone { display: flex; align-items: center; padding: 10vh 6vw; }
+
+#sunlight { background: linear-gradient(180deg, var(--sunlight-top) 0%, var(--sunlight-bottom) 100%); }
+#twilight { background: linear-gradient(180deg, var(--twilight-top) 0%, var(--twilight-bottom) 100%); }
+#midnight { background: linear-gradient(180deg, var(--midnight-top) 0%, var(--midnight-bottom) 100%); }
+#abyss    { background: linear-gradient(180deg, var(--abyss-top) 0%, var(--abyss-bottom) 100%); }
+
+/* floating particles / marine snow */
+.zone::after {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20% 30%, rgba(255,255,255,0.5) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 70% 60%, rgba(255,255,255,0.4) 50%, transparent 51%),
+    radial-gradient(1px 1px at 45% 80%, rgba(255,255,255,0.4) 50%, transparent 51%),
+    radial-gradient(1px 1px at 85% 25%, rgba(255,255,255,0.4) 50%, transparent 51%);
+  background-size: 100% 100%;
+  pointer-events: none;
+  opacity: 0.6;
+  z-index: 1;
+}
+
+/* rippling caustic light that drifts across the water */
+.zone::before {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    radial-gradient(60% 40% at 30% 20%, rgba(255,255,255,0.10), transparent 70%),
+    radial-gradient(50% 35% at 75% 60%, rgba(255,255,255,0.08), transparent 70%);
+  background-size: 180% 180%, 160% 160%;
+  animation: caustics 14s ease-in-out infinite alternate;
+}
+@keyframes caustics {
+  0%   { background-position: 0% 0%, 100% 100%; }
+  100% { background-position: 100% 50%, 0% 30%; }
+}
+#midnight::before { opacity: 0.4; }
+#abyss::before    { opacity: 0.18; }
+
+/* ---- water FX layer injected by JS (rays + bubbles) ---- */
+.water-fx { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 2; }
+
+.light-rays {
+  position: absolute;
+  top: -10%; left: -10%;
+  width: 120%; height: 120%;
+  background: repeating-linear-gradient(
+    100deg,
+    rgba(255,255,255,0.12) 0px,
+    rgba(255,255,255,0.12) 3px,
+    transparent 3px,
+    transparent 90px
+  );
+  transform-origin: top center;
+  animation: rays 12s ease-in-out infinite alternate;
+}
+@keyframes rays {
+  0%   { transform: translateX(-30px) skewX(-6deg); opacity: 0.9; }
+  100% { transform: translateX(30px)  skewX(-2deg); opacity: 0.6; }
+}
+#sunlight .light-rays { opacity: 0.9; }
+#twilight .light-rays { opacity: 0.45; }
+#midnight .light-rays { opacity: 0.16; }
+#abyss .light-rays    { opacity: 0.06; }
+
+.bubble {
+  position: absolute;
+  bottom: -40px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.85), rgba(255,255,255,0.15) 70%);
+  border: 1px solid rgba(255,255,255,0.3);
+  animation: bubble-rise linear infinite;
+}
+@keyframes bubble-rise {
+  0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+  10%  { opacity: 0.9; }
+  50%  { transform: translateY(-55vh) translateX(18px) scale(1.05); }
+  90%  { opacity: 0.7; }
+  100% { transform: translateY(-110vh) translateX(-12px) scale(0.7); opacity: 0; }
+}
+
+/* wavy water surface line at the top edge of each zone */
+.wave-top {
+  position: absolute;
+  top: -2px; left: 0; width: 200%; height: 26px;
+  background:
+    radial-gradient(circle at 20px 26px, transparent 18px, rgba(255,255,255,0.18) 19px 20px, transparent 21px) repeat-x;
+  background-size: 60px 30px;
+  z-index: 3;
+  animation: wave-shift 8s linear infinite;
+  pointer-events: none;
+}
+@keyframes wave-shift { to { transform: translateX(-60px); } }
+#abyss .wave-top { opacity: 0.25; }
+
+.zone-label {
+  position: absolute;
+  top: 8vh; left: 6vw;
+  z-index: 5;
+}
+.zone-eyebrow {
+  display: inline-block;
+  font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+  opacity: 0.7; margin-bottom: 4px;
+}
+.zone-label h2 { font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1; }
+.zone-depth { font-size: 0.95rem; opacity: 0.8; }
+
+/* creatures with description memos */
+.creature {
+  position: absolute;
+  width: min(340px, 32vw);
+  z-index: 4;
+}
+.creature img {
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+  display: block;
+}
+.creature--left  { left: 5vw;  top: 30vh; }
+.creature--right { right: 5vw; top: 26vh; }
+.creature--right-low { right: 8vw; top: 58vh; width: min(280px, 28vw); }
+
+.memo {
+  margin-top: 14px;
+  background: var(--memo-bg);
+  color: #123;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  position: relative;
+}
+.memo::before {
+  content: "";
+  position: absolute; top: -8px; left: 28px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid var(--memo-bg);
+}
+.memo strong { display: block; font-family: 'Fredoka', sans-serif; font-size: 1.05rem; margin-bottom: 4px; color: #06324f; }
+
+/* left-side info card (twilight + midnight) */
+.info-card {
+  position: absolute;
+  left: 5vw; top: 30vh;
+  width: min(360px, 34vw);
+  background: rgba(255,255,255,0.95);
+  color: #123;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+  z-index: 6;
+}
+.info-card img { width: 100%; height: 190px; object-fit: cover; display: block; }
+.info-card-body { padding: 18px 20px; }
+.info-card-body h3 { color: #06324f; font-size: 1.3rem; margin-bottom: 6px; }
+.info-card-body p { font-size: 0.92rem; line-height: 1.5; }
+
+/* sea floor in the final zone */
+.seafloor {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 33vh;
+  background: linear-gradient(180deg, #1a1207 0%, #2c1d0c 60%, #3a2913 100%);
+  border-top: 4px solid rgba(120, 90, 50, 0.6);
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  z-index: 7;
+  box-shadow: 0 -20px 60px rgba(0,0,0,0.6) inset;
+}
+.seafloor::before {
+  content: "";
+  position: absolute; top: -10px; left: 0; right: 0; height: 20px;
+  background: radial-gradient(circle at 10% 0, #3a2913 8px, transparent 9px) repeat-x;
+  background-size: 60px 20px;
+}
+.seafloor-text { max-width: 720px; padding: 0 24px; }
+.seafloor-text h2 { font-size: clamp(1.8rem, 5vw, 3rem); color: #ffd166; text-shadow: 0 2px 14px rgba(0,0,0,0.5); }
+.seafloor-text p  { margin-top: 12px; font-size: 1rem; line-height: 1.6; color: #f2e9d8; }
+
+/* reveal-on-scroll base state (GSAP toggles it) */
+.reveal { opacity: 0; transform: translateY(36px); }
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+@media (max-width: 768px) {
+  .scene { left: 4%; transform: scale(0.78); transform-origin: bottom left; }
+  .hero-text { top: 12%; }
+  .creature { width: 44vw; }
+  .creature--left  { left: 3vw; top: 24vh; }
+  .creature--right { right: 3vw; top: 22vh; }
+  .creature--right-low { top: 64vh; width: 40vw; }
+  .info-card { width: 70vw; left: 50%; transform: translateX(-50%); top: 20vh; }
+  #depth-gauge { right: 10px; }
+  .depth-track { height: 120px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
+}
