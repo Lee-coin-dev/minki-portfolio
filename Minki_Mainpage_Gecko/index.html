@@ -32,6 +32,20 @@
     </div>
   </div>
 
+  <!-- Nav-gate: appears after gecko hops onto a tile -->
+  <div id="nav-gate" aria-modal="true" role="dialog" aria-label="Proceed to subpage">
+    <div class="nav-gate__backdrop"></div>
+    <div class="nav-gate__panel">
+      <p class="nav-gate__eyebrow">The gecko has chosen</p>
+      <h2 class="nav-gate__label" id="nav-gate-label"></h2>
+      <div class="nav-gate__divider"></div>
+      <button class="nav-gate__btn" id="nav-gate-btn" data-href="">
+        Begin the Journey <span class="nav-gate__arrow">→</span>
+      </button>
+      <button class="nav-gate__cancel" id="nav-gate-cancel">← Choose again</button>
+    </div>
+  </div>
+
   <!-- This tall element gives the page its scroll length -->
   <div id="scroller"></div>
 

@@ -740,21 +740,41 @@ gsap.to(state, {
 });
 
 /* ============================================================
+   SUBPAGE ROUTING
+   ============================================================ */
+const routes = {
+  "Flute":          "../Minki_1st_Subpage_Flute/",
+  "Marine Biology": "../Minki_2nd_Subpage_Marine_Biology/",
+  "Tennis":         "../Minki_3rd_Subpage_Tennis/",
+};
+
+/* ============================================================
+   NAV-GATE OVERLAY — appears after gecko hops, opens subpage
+   ============================================================ */
+const navGate       = document.getElementById("nav-gate");
+const navGateLabel  = document.getElementById("nav-gate-label");
+const navGateBtn    = document.getElementById("nav-gate-btn");
+const navGateCancel = document.getElementById("nav-gate-cancel");
+
+navGateBtn.addEventListener("click", () => {
+  const url = navGateBtn.dataset.href;
+  if (url) window.location.href = url;
+});
+navGateCancel.addEventListener("click", () => {
+  navGate.classList.remove("visible");
+});
+
+function showNavGate(label, url) {
+  navGateLabel.textContent = label.toUpperCase();
+  navGateBtn.dataset.href = url;
+  navGate.classList.add("visible");
+}
+
+/* ============================================================
    CLICK THE END BUTTONS → gecko hops on top
    ============================================================ */
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
-const toast = document.createElement("div");
-toast.id = "toast";
-document.body.appendChild(toast);
-let toastTimer = null;
-
-function showToast(msg) {
-  toast.textContent = msg;
-  toast.classList.add("show");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
-}
 
 window.addEventListener("pointerdown", (e) => {
   if (!buttonGroup.visible || state.j < 0.9) return;
@@ -776,14 +796,14 @@ function hopGeckoTo(tile) {
     dest.x - gecko.position.x,
     dest.z - gecko.position.z
   );
-  // reset any previously chosen tile lift
   buttons.forEach((b) => {
     if (b !== tile) gsap.to(b.userData, { lift: 0, duration: 0.4 });
   });
 
-  const tl = gsap.timeline();
+  const tl = gsap.timeline({
+    onComplete: () => showNavGate(tile.userData.label, routes[tile.userData.label]),
+  });
   tl.to(gecko.rotation, { y: facing, duration: 0.35, ease: "power2.out" });
-  // arc up and onto the tile top
   tl.to(gecko.position, {
     x: dest.x,
     z: dest.z,
@@ -795,11 +815,8 @@ function hopGeckoTo(tile) {
     duration: 0.35,
     ease: "power2.out",
   }, "<");
-  tl.to(gecko.position, {
-    y: tile.userData.topY,
-    duration: 0.0,
-  });
-  showToast(`The gecko chooses “${tile.userData.label}”!`);
+  tl.to(gecko.position, { y: tile.userData.topY, duration: 0.0 });
+  tl.to({}, { duration: 0.8 }); // brief pause before gate opens
 }
 
 /* ============================================================

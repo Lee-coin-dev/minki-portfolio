@@ -157,3 +157,109 @@ html, body {
   pointer-events: none;
 }
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ============================================================
+   NAV-GATE — full-screen overlay after gecko hops
+   ============================================================ */
+#nav-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.55s ease;
+}
+#nav-gate.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.nav-gate__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 18, 10, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.nav-gate__panel {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 3rem 3.5rem;
+  background: rgba(12, 28, 16, 0.88);
+  border: 1px solid rgba(116, 224, 138, 0.22);
+  border-radius: 1.2rem;
+  max-width: 480px;
+  width: 90%;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+}
+
+.nav-gate__eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 0.7rem;
+}
+
+.nav-gate__label {
+  font-size: clamp(1.8rem, 6vw, 3rem);
+  font-weight: 800;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #74e08a, #38cfb4);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.15;
+}
+
+.nav-gate__divider {
+  width: 48px;
+  height: 2px;
+  background: rgba(116, 224, 138, 0.35);
+  margin: 1.4rem auto;
+  border-radius: 2px;
+}
+
+.nav-gate__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #2f9e4f, #1f7a7a);
+  color: #fff;
+  border: none;
+  padding: 0.85rem 2.2rem;
+  border-radius: 999px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: 0 6px 24px rgba(47, 158, 79, 0.4);
+}
+.nav-gate__btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 32px rgba(47, 158, 79, 0.55);
+}
+.nav-gate__arrow {
+  font-size: 1.2rem;
+  transition: transform 0.18s ease;
+}
+.nav-gate__btn:hover .nav-gate__arrow { transform: translateX(4px); }
+
+.nav-gate__cancel {
+  display: block;
+  margin: 1rem auto 0;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.82rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: color 0.18s ease;
+}
+.nav-gate__cancel:hover { color: rgba(255, 255, 255, 0.8); }
