@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 /* ============================================================
    The Journey — an unbroken, scroll-driven gecko adventure.
@@ -280,80 +281,70 @@ const homeTree = makeTree(1.5);
 scene.add(homeTree);
 
 /* ============================================================
-   THE GECKO — built from primitives, faces +Z, with a tail that
-   can be severed and regrown. Legs animate as it walks/sprints.
+   THE GECKO — loaded from glTF asset (leopard_gecko/scene.gltf)
+   Static mesh; no bone rigging. Tail-cut effect uses opacity.
    ============================================================ */
 const gecko = new THREE.Group();
-const geckoSkin = new THREE.MeshStandardMaterial({ color: 0x57c24a, roughness: 0.5 });
-const geckoBelly = new THREE.MeshStandardMaterial({ color: 0xcfeebf, roughness: 0.6 });
-
-const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.28, 0.95, 6, 12), geckoSkin);
-body.rotation.x = Math.PI / 2; // lie along Z
-body.position.y = 0.32;
-body.castShadow = true;
-gecko.add(body);
-
-const belly = new THREE.Mesh(new THREE.CapsuleGeometry(0.2, 0.9, 6, 10), geckoBelly);
-belly.rotation.x = Math.PI / 2;
-belly.position.set(0, 0.2, 0);
-gecko.add(belly);
-
-const head = new THREE.Mesh(new THREE.SphereGeometry(0.34, 16, 14), geckoSkin);
-head.scale.set(1, 0.8, 1.25);
-head.position.set(0, 0.36, 0.85);
-head.castShadow = true;
-gecko.add(head);
-
-// eyes
-const eyeWhite = new THREE.MeshStandardMaterial({ color: 0xffffff });
-const eyeBlack = new THREE.MeshStandardMaterial({ color: 0x111111 });
-for (const sx of [-1, 1]) {
-  const e = new THREE.Mesh(new THREE.SphereGeometry(0.12, 12, 12), eyeWhite);
-  e.position.set(0.22 * sx, 0.52, 0.92);
-  gecko.add(e);
-  const p = new THREE.Mesh(new THREE.SphereGeometry(0.06, 10, 10), eyeBlack);
-  p.position.set(0.25 * sx, 0.53, 1.0);
-  gecko.add(p);
-}
-
-// legs (store refs to animate the gait)
-const legGeo = new THREE.CapsuleGeometry(0.07, 0.42, 4, 8);
-const legs = [];
-const legDefs = [
-  { x: 0.34, z: 0.55, p: 0 },
-  { x: -0.34, z: 0.55, p: Math.PI },
-  { x: 0.34, z: -0.45, p: Math.PI },
-  { x: -0.34, z: -0.45, p: 0 },
-];
-for (const d of legDefs) {
-  const pivot = new THREE.Group();
-  pivot.position.set(d.x, 0.28, d.z);
-  const leg = new THREE.Mesh(legGeo, geckoSkin);
-  leg.position.y = -0.18;
-  leg.castShadow = true;
-  pivot.add(leg);
-  pivot.userData.phase = d.p;
-  pivot.userData.outward = d.x > 0 ? 1 : -1;
-  gecko.add(pivot);
-  legs.push(pivot);
-}
-
-// tail — a pivot at the base so it can wag, scale to 0 (cut) and regrow
-const tailPivot = new THREE.Group();
-tailPivot.position.set(0, 0.3, -0.55);
-const tail = new THREE.Mesh(new THREE.ConeGeometry(0.24, 1.3, 12), geckoSkin);
-tail.rotation.x = -Math.PI / 2; // point toward -Z
-tail.position.z = -0.65;
-tail.castShadow = true;
-tailPivot.add(tail);
-gecko.add(tailPivot);
-
-gecko.scale.setScalar(0.9);
 scene.add(gecko);
 
-// the severed tail piece that drops on the ground after the parrot strikes
-const severedTail = new THREE.Mesh(new THREE.ConeGeometry(0.24, 1.3, 12), geckoSkin.clone());
-severedTail.material.transparent = true;
+// legs[] kept empty — mesh has no separate leg parts to animate
+const legs = [];
+
+// tailPivot is an empty Group so updateStory calls on it are no-ops
+const tailPivot = new THREE.Group();
+tailPivot.position.set(0, 0.0, -0.55);
+gecko.add(tailPivot);
+
+// References to every mesh inside the loaded model (set after load)
+let geckoMeshes = [];
+let geckoModelRoot = null; // the gltf.scene object
+
+const _gltfLoader = new GLTFLoader();
+_gltfLoader.load("leopard_gecko/scene.gltf", (gltf) => {
+  const model = gltf.scene;
+
+  // Auto-scale: fit the longest axis to ~2 scene units
+  const _box = new THREE.Box3().setFromObject(model);
+  const _size = _box.getSize(new THREE.Vector3());
+  const _center = _box.getCenter(new THREE.Vector3());
+  const _maxDim = Math.max(_size.x, _size.y, _size.z);
+  const _s = 2.0 / _maxDim;
+  model.scale.setScalar(_s);
+
+  // Center horizontally; sit the bottom of the bounding box at y = 0
+  model.position.set(
+    -_center.x * _s,
+    -_box.min.y * _s,
+    -_center.z * _s
+  );
+
+  // Rotate so the gecko faces +Z (same direction as path travel).
+  // The glTF root node already converts Z-up → Y-up; an extra 180°
+  // flip aligns the head toward +Z.  Adjust here if orientation is off.
+  model.rotation.y = Math.PI;
+
+  model.traverse((child) => {
+    if (child.isMesh) {
+      child.castShadow = true;
+      child.receiveShadow = true;
+      // Enable transparency so we can fade the gecko at tail-cut moment
+      child.material = child.material.clone();
+      child.material.transparent = true;
+      child.material.opacity = 1.0;
+      geckoMeshes.push(child);
+    }
+  });
+
+  geckoModelRoot = model;
+  gecko.add(model);
+  gecko.remove(tailPivot); // no longer needed as a visible object
+});
+
+// Severed tail — a small primitive that drops at the cut moment
+const _severedMat = new THREE.MeshStandardMaterial({
+  color: 0x7a9e50, roughness: 0.6, transparent: true,
+});
+const severedTail = new THREE.Mesh(new THREE.ConeGeometry(0.18, 1.0, 10), _severedMat);
 severedTail.rotation.x = -Math.PI / 2;
 severedTail.visible = false;
 scene.add(severedTail);
@@ -612,15 +603,13 @@ function updateStory(j, time) {
     }
   }
 
-  /* ---- tail state: full -> severed -> regrown ---- */
-  let tailScale;
-  if (j < cutAt) {
-    tailScale = 1;
-  } else {
-    const regrow = seg(j, 0.78, 0.9);
-    tailScale = regrow; // 0 right after cut, back to 1 once sunny
-  }
-  tailPivot.scale.setScalar(clamp(tailScale, 0.0001, 1));
+  /* ---- tail state: for a static mesh, animate gecko opacity ----
+     At cut moment the gecko dims (tail gone); brightens as tail regrows. */
+  const _regrow = seg(j, 0.78, 0.9);
+  const _geckoOpacity = j < cutAt ? 1.0 : clamp(0.25 + _regrow * 0.75, 0, 1);
+  for (const _m of geckoMeshes) _m.material.opacity = _geckoOpacity;
+  // tailPivot is now an empty group — keep call harmless for compat
+  tailPivot.scale.setScalar(1);
 
   // drop the severed tail on the ground at the cut moment
   if (j >= cutAt && !tailDropped) {
