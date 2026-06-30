@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Journey — Pixel Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=block" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- 320×180 pixel canvas — CSS scales it to fill the viewport -->
+  <canvas id="scene" width="320" height="180"></canvas>
+
+  <!-- Scanline overlay (CRT effect) -->
+  <div id="scanlines" aria-hidden="true"></div>
+
+  <!-- End-phase clickable buttons (absolutely positioned over the canvas) -->
+  <div id="end-btns" aria-hidden="true">
+    <button class="end-btn" data-index="0" data-url="../Minki_1st_Subpage_Flute/">FLUTE</button>
+    <button class="end-btn" data-index="1" data-url="../Minki_2nd_Subpage_Marine_Biology/">MARINE<br>BIO</button>
+    <button class="end-btn" data-index="2" data-url="../Minki_3rd_Subpage_Tennis/">TENNIS</button>
+  </div>
+
+  <!-- Tall div that gives the page its scroll distance -->
+  <div id="scroller"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
