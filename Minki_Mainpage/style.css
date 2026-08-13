@@ -1,0 +1,112 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #0a1420;
+  overflow: hidden;
+  font-family: "Caveat", cursive;
+}
+
+#stage {
+  position: absolute;
+  inset: var(--site-nav-height) 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Aged parchment / prehistoric vignette around the play field */
+  background:
+    radial-gradient(ellipse at center, #23405c 0%, #0c1622 70%, #050a10 100%);
+}
+
+#game {
+  display: block;
+  width: auto;
+  height: min(100%, 56.25vw);
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  image-rendering: auto;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.skip-btn {
+  position: absolute;
+  z-index: 30;
+  top: 18px;
+  right: 24px;
+  padding: 9px 16px;
+  border: 1px solid rgba(246, 231, 200, 0.55);
+  border-radius: 999px;
+  color: #f6e7c8;
+  background: rgba(8, 14, 20, 0.68);
+  font-family: "Cinzel", serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+}
+
+.skip-btn:hover {
+  color: #ffffff;
+  background: rgba(107, 68, 35, 0.9);
+  transform: translateY(-2px);
+}
+
+.skip-btn:focus-visible {
+  outline: 2px solid #f4d9a0;
+  outline-offset: 3px;
+}
+
+.ui-btn {
+  position: absolute;
+  z-index: 20;
+  left: 50%;
+  top: 62%;
+  transform: translate(-50%, -50%);
+  padding: 14px 34px;
+  font-family: "Cinzel", serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #2b1a0e;
+  background: linear-gradient(#f4d9a0, #d9a95f);
+  border: 3px solid #6b4423;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #6b4423, 0 12px 24px rgba(0, 0, 0, 0.5);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.ui-btn:hover {
+  transform: translate(-50%, -50%) translateY(-2px);
+}
+
+.ui-btn:active {
+  transform: translate(-50%, -50%) translateY(3px);
+  box-shadow: 0 3px 0 #6b4423, 0 6px 14px rgba(0, 0, 0, 0.5);
+}
+
+.hint {
+  position: absolute;
+  z-index: 15;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #f6e7c8;
+  font-size: 24px;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.hidden {
+  display: none !important;
+}

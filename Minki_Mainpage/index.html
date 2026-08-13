@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hesperornis: A Cretaceous Chase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Caveat:wght@600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="../shared/site-nav.css" />
+</head>
+<body>
+  <nav class="site-nav" aria-label="Site navigation">
+    <a class="site-nav__brand" href="./">Minki</a>
+    <ul class="site-nav__list">
+      <li><a class="site-nav__link is-active" href="./" aria-current="page">Home</a></li>
+      <li><a class="site-nav__link" href="../Minki_1st_Subpage_Flute/">Flute</a></li>
+      <li><a class="site-nav__link" href="../Minki_2nd_Subpage_Marine_Biology/">Marine Biology</a></li>
+      <li><a class="site-nav__link" href="../Minki_3rd_Subpage_Tennis/">Tennis</a></li>
+    </ul>
+  </nav>
+
+  <div id="stage">
+    <canvas id="game" width="1280" height="720"></canvas>
+
+    <button id="skipBtn" class="skip-btn" type="button">Skip Game →</button>
+
+    <!-- Restart button (shown on death) -->
+    <button id="returnBtn" class="ui-btn hidden">↺ Return</button>
+
+    <!-- Loading / hint overlay -->
+    <div id="hint" class="hint">Loading the Cretaceous seas…</div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

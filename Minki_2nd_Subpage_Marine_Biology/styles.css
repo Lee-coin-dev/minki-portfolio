@@ -1,48 +1,3 @@
-/* ============================================================
-   BACK NAV — shared across all subpages
-   ============================================================ */
-.back-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.65rem 1.4rem;
-  background: rgba(8, 14, 20, 0.62);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.back-nav__link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  text-decoration: none;
-  color: rgba(255, 255, 255, 0.82);
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  transition: color 0.18s ease;
-}
-.back-nav__link:hover { color: #ffffff; }
-.back-nav__arrow {
-  font-size: 1rem;
-  transition: transform 0.18s ease;
-}
-.back-nav__link:hover .back-nav__arrow { transform: translateX(-3px); }
-
-.back-nav__title {
-  font-size: 0.75rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.38);
-}
-
 /* =========================================================
    Into the Deep — underwater descent prototype
    ========================================================= */
@@ -271,7 +226,7 @@ h1, h2, h3 { font-family: 'Fredoka', sans-serif; font-weight: 600; }
   top: 0;
   left: 50%;
   transform: translateX(-150px); /* aligns the line-guide ring with the 50% line */
-  z-index: 41;
+  z-index: 4;
   opacity: 0;
   pointer-events: none;
   filter: drop-shadow(0 6px 10px rgba(0,0,0,0.35));
@@ -282,7 +237,7 @@ h1, h2, h3 { font-family: 'Fredoka', sans-serif; font-weight: 600; }
   top: 44%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 40;
+  z-index: 4;
   opacity: 0;
   pointer-events: none;
 }
@@ -340,7 +295,11 @@ h1, h2, h3 { font-family: 'Fredoka', sans-serif; font-weight: 600; }
 /* =========================================================
    Zone sections (2–5)
    ========================================================= */
-.zone { display: flex; align-items: center; padding: 10vh 6vw; }
+.zone {
+  display: block;
+  padding: clamp(150px, 20vh, 190px) 6vw clamp(70px, 9vh, 100px);
+  scroll-margin-top: var(--site-nav-height);
+}
 
 #sunlight { background: linear-gradient(180deg, var(--sunlight-top) 0%, var(--sunlight-bottom) 100%); }
 #twilight { background: linear-gradient(180deg, var(--twilight-top) 0%, var(--twilight-bottom) 100%); }
@@ -450,29 +409,47 @@ h1, h2, h3 { font-family: 'Fredoka', sans-serif; font-weight: 600; }
 .zone-label h2 { font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1; }
 .zone-depth { font-size: 0.95rem; opacity: 0.8; }
 
-/* creatures with description memos */
+/* 25/75 zone layout: marine life left, personal story right */
+.zone-layout {
+  position: relative;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: minmax(210px, 1fr) minmax(0, 3fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: start;
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.zone-media {
+  display: grid;
+  gap: 20px;
+}
+
 .creature {
-  position: absolute;
-  width: min(340px, 32vw);
-  z-index: 4;
+  position: relative;
+  width: 100%;
+  margin: 0;
+  z-index: 5;
 }
 .creature img {
   width: 100%;
+  height: clamp(130px, 17vh, 175px);
+  object-fit: contain;
+  object-position: center;
   border-radius: 16px;
+  background: rgba(255,255,255,0.08);
   box-shadow: 0 18px 40px rgba(0,0,0,0.45);
   display: block;
 }
-.creature--left  { left: 5vw;  top: 30vh; }
-.creature--right { right: 5vw; top: 26vh; }
-.creature--right-low { right: 8vw; top: 58vh; width: min(280px, 28vw); }
 
 .memo {
-  margin-top: 14px;
+  margin-top: 10px;
   background: var(--memo-bg);
   color: #123;
   border-radius: 12px;
-  padding: 14px 16px;
-  font-size: 0.92rem;
+  padding: 11px 13px;
+  font-size: 0.78rem;
   line-height: 1.45;
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
   position: relative;
@@ -484,46 +461,92 @@ h1, h2, h3 { font-family: 'Fredoka', sans-serif; font-weight: 600; }
   border-right: 8px solid transparent;
   border-bottom: 8px solid var(--memo-bg);
 }
-.memo strong { display: block; font-family: 'Fredoka', sans-serif; font-size: 1.05rem; margin-bottom: 4px; color: #06324f; }
+.memo strong {
+  display: block;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.95rem;
+  margin-bottom: 3px;
+  color: #06324f;
+}
 
-/* left-side info card (twilight + midnight) */
-.info-card {
-  position: absolute;
-  left: 5vw; top: 30vh;
-  width: min(360px, 34vw);
-  background: rgba(255,255,255,0.95);
-  color: #123;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.45);
-  z-index: 6;
+.zone-story {
+  padding: clamp(26px, 4vw, 46px);
+  color: #102f40;
+  background: rgba(248, 252, 255, 0.94);
+  border: 1px solid rgba(255,255,255,0.65);
+  border-radius: 22px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
-.info-card img { width: 100%; height: 190px; object-fit: cover; display: block; }
-.info-card-body { padding: 18px 20px; }
-.info-card-body h3 { color: #06324f; font-size: 1.3rem; margin-bottom: 6px; }
-.info-card-body p { font-size: 0.92rem; line-height: 1.5; }
 
-/* sea floor in the final zone */
-.seafloor {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 33vh;
-  background: linear-gradient(180deg, #1a1207 0%, #2c1d0c 60%, #3a2913 100%);
-  border-top: 4px solid rgba(120, 90, 50, 0.6);
-  display: flex; align-items: center; justify-content: center;
-  text-align: center;
-  z-index: 7;
-  box-shadow: 0 -20px 60px rgba(0,0,0,0.6) inset;
+.zone-story__eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  color: #227aa5;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
 }
-.seafloor::before {
-  content: "";
-  position: absolute; top: -10px; left: 0; right: 0; height: 20px;
-  background: radial-gradient(circle at 10% 0, #3a2913 8px, transparent 9px) repeat-x;
-  background-size: 60px 20px;
+
+.zone-story h3 {
+  margin-bottom: 18px;
+  color: #06324f;
+  font-size: clamp(1.65rem, 3vw, 2.55rem);
+  line-height: 1.1;
 }
-.seafloor-text { max-width: 720px; padding: 0 24px; }
-.seafloor-text h2 { font-size: clamp(1.8rem, 5vw, 3rem); color: #ffd166; text-shadow: 0 2px 14px rgba(0,0,0,0.5); }
-.seafloor-text p  { margin-top: 12px; font-size: 1rem; line-height: 1.6; color: #f2e9d8; }
+
+.zone-story p {
+  font-size: clamp(0.88rem, 1.25vw, 1rem);
+  line-height: 1.72;
+}
+
+.zone-story > p + p {
+  margin-top: 16px;
+}
+
+.zone-story__abstract {
+  margin-bottom: 18px;
+  padding: 16px 18px;
+  border-left: 4px solid #2aa3e0;
+  border-radius: 0 12px 12px 0;
+  background: rgba(42, 163, 224, 0.1);
+}
+
+.zone-story__abstract > strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #06324f;
+  font-family: 'Fredoka', sans-serif;
+}
+
+.research-download {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 18px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  color: #ffffff;
+  background: #0b78aa;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(11, 120, 170, 0.25);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.research-download:hover {
+  background: #075d86;
+  transform: translateY(-2px);
+}
+
+.research-download:focus-visible {
+  outline: 3px solid rgba(42, 163, 224, 0.45);
+  outline-offset: 3px;
+}
 
 /* reveal-on-scroll base state (GSAP toggles it) */
 .reveal { opacity: 0; transform: translateY(36px); }
@@ -534,13 +557,22 @@ h1, h2, h3 { font-family: 'Fredoka', sans-serif; font-weight: 600; }
 @media (max-width: 768px) {
   .scene { left: 4%; transform: scale(0.78); transform-origin: bottom left; }
   .hero-text { top: 12%; }
-  .creature { width: 44vw; }
-  .creature--left  { left: 3vw; top: 24vh; }
-  .creature--right { right: 3vw; top: 22vh; }
-  .creature--right-low { top: 64vh; width: 40vw; }
-  .info-card { width: 70vw; left: 50%; transform: translateX(-50%); top: 20vh; }
+  .zone {
+    padding: 170px 6vw 70px;
+    scroll-margin-top: 110px;
+  }
+  .zone-label { top: 96px; }
+  .zone-layout { grid-template-columns: 1fr; }
+  .zone-media { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .creature img { height: 150px; }
+  .zone-story { padding: 24px; }
   #depth-gauge { right: 10px; }
   .depth-track { height: 120px; }
+}
+
+@media (max-width: 520px) {
+  .zone-media { grid-template-columns: 1fr; }
+  .creature img { height: 180px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

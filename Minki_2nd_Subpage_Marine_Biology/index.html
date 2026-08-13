@@ -8,16 +8,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="../shared/site-nav.css" />
 </head>
 <body>
 
-  <!-- ===== Back Navigation ===== -->
-  <nav class="back-nav" aria-label="Return to main">
-    <a class="back-nav__link" href="../Minki_Mainpage_Gecko/">
-      <span class="back-nav__arrow">←</span>
-      <span class="back-nav__text">Back to the Journey</span>
-    </a>
-    <span class="back-nav__title">Minki · Marine Biology</span>
+  <nav class="site-nav site-nav--expanded" aria-label="Site navigation">
+    <a class="site-nav__brand" href="../Minki_Mainpage/">Minki</a>
+    <ul class="site-nav__list">
+      <li><a class="site-nav__link site-nav__link--secondary" href="../Minki_Mainpage/">Home</a></li>
+      <li><a class="site-nav__link site-nav__link--secondary" href="../Minki_1st_Subpage_Flute/">Flute</a></li>
+      <li><a class="site-nav__link is-active" href="./" aria-current="page">Marine Biology</a></li>
+      <li><a class="site-nav__link site-nav__link--secondary" href="../Minki_3rd_Subpage_Tennis/">Tennis</a></li>
+      <li class="site-nav__divider" aria-hidden="true"></li>
+      <li><a class="site-nav__link site-nav__link--secondary" href="#sunlight">Sunlight Zone</a></li>
+      <li><a class="site-nav__link site-nav__link--secondary" href="#twilight">Twilight Zone</a></li>
+      <li><a class="site-nav__link site-nav__link--secondary" href="#midnight">Midnight Zone</a></li>
+      <li><a class="site-nav__link site-nav__link--secondary" href="#abyss">Abyssal Zone</a></li>
+    </ul>
   </nav>
 
   <!-- ===== Rod tip at the surface the line stays attached to ===== -->
@@ -157,21 +164,31 @@
       <span class="zone-depth">0 – 200 m</span>
     </div>
 
-    <figure class="creature creature--left reveal">
-      <img src="images/Sea_lion_sunlight_zone.png" alt="Sea lion" />
-      <figcaption class="memo">
-        <strong>Sea Lion</strong>
-        Playful and fast, sea lions dive here where sunlight still fuels rich blooms of life.
-      </figcaption>
-    </figure>
+    <div class="zone-layout">
+      <div class="zone-media">
+        <figure class="creature reveal">
+          <img src="images/Sea_lion_sunlight_zone.png" alt="Sea lion" />
+          <figcaption class="memo">
+            <strong>Sea Lion</strong>
+            Playful and fast, sea lions dive here where sunlight still fuels rich blooms of life.
+          </figcaption>
+        </figure>
 
-    <figure class="creature creature--right reveal">
-      <img src="images/Whale_shark_sunlight_zone.png" alt="Whale shark" />
-      <figcaption class="memo">
-        <strong>Whale Shark</strong>
-        The gentle giant — the largest fish alive — filter-feeds on plankton near the surface.
-      </figcaption>
-    </figure>
+        <figure class="creature reveal">
+          <img src="images/Whale_shark_sunlight_zone.png" alt="Whale shark" />
+          <figcaption class="memo">
+            <strong>Whale Shark</strong>
+            The gentle giant — the largest fish alive — filter-feeds on plankton near the surface.
+          </figcaption>
+        </figure>
+      </div>
+
+      <article class="zone-story reveal">
+        <span class="zone-story__eyebrow">Sunlight Zone</span>
+        <h3>Prelude</h3>
+        <p>Since I was in fifth grade, science used to always be my favorite subject. I was always passionate about that area and I liked how science was a limitless field of information, which made me think that not all the discoveries have been made yet. And I thought, “I want to get famous from discovering new sciences.” However, I never knew which area of science I liked the best or it was not that I had an immense amount of knowledge in Science. I simply liked learning. As I went abroad and went to Fay, I got introduced to fishing. By the end of my eighth grade year. I went fishing with my best friend and he was an expert at it. He taught me how to whip the rod and throw it inside the water. The first time that I tried was an experience that placated me from all the other academic stresses. I sat there with nature for four hours. After that, I was so sure that I will be the most interested in Marine Biology and made me want to discover that area more.</p>
+      </article>
+    </div>
   </section>
 
   <!-- ============================ SCREEN 3 — TWILIGHT ============================ -->
@@ -182,21 +199,31 @@
       <span class="zone-depth">200 – 1000 m</span>
     </div>
 
-    <div class="info-card reveal">
-      <img src="images/crab_twilight_zone.png" alt="Deep-sea crab on a stone" />
-      <div class="info-card-body">
-        <h3>Fading Light</h3>
-        <p>Only a faint blue glow survives here. Photosynthesis stops, and animals begin to make their own light to hunt, hide, and find one another.</p>
-      </div>
-    </div>
+    <div class="zone-layout">
+      <div class="zone-media">
+        <figure class="creature reveal">
+          <img src="images/crab_twilight_zone.png" alt="Deep-sea crab on a stone" />
+          <figcaption class="memo">
+            <strong>Deep-Sea Crab</strong>
+            Only a faint blue glow survives here. Animals begin to make their own light to hunt and hide.
+          </figcaption>
+        </figure>
 
-    <figure class="creature creature--right reveal">
-      <img src="images/Sperm_whale_twilight_zone.png" alt="Sperm whale" />
-      <figcaption class="memo">
-        <strong>Sperm Whale</strong>
-        Dives over 1000 m on a single breath to hunt squid in near-total darkness.
-      </figcaption>
-    </figure>
+        <figure class="creature reveal">
+          <img src="images/Sperm_whale_twilight_zone.png" alt="Sperm whale" />
+          <figcaption class="memo">
+            <strong>Sperm Whale</strong>
+            Dives over 1000 m on a single breath to hunt squid in near-total darkness.
+          </figcaption>
+        </figure>
+      </div>
+
+      <article class="zone-story reveal">
+        <span class="zone-story__eyebrow">Twilight Zone</span>
+        <h3>Discovering the Mysteries of the Sea</h3>
+        <p>As I have studied science since I was young, my thought was always “What if the past and modern scientists explore everything before I become a scientist?” Science was always my favorite because I knew that even though it seemed like everything was explored, the sea and the space had so much more to discover. Marine Biology interested me because it explores a vast and mysterious part of our planet. While I’ve also thought about the space, that felt too empty and hollow for me. More than 70% of earth is covered with ocean, but the majority of it is unexplored, which triggered my curiosity. And since I wanted something even more special, I started exploring the ancient sea lives and got interested in fossils. Additionally, I also noticed that as the concerns of pollutants increased, ocean conservation started to grow and that marine biology will become even more important in the future.</p>
+      </article>
+    </div>
   </section>
 
   <!-- ============================ SCREEN 4 — MIDNIGHT ============================ -->
@@ -207,21 +234,36 @@
       <span class="zone-depth">1000 – 4000 m</span>
     </div>
 
-    <div class="info-card reveal">
-      <img src="images/colossal_squid_midnight_zone.png" alt="Colossal squid" />
-      <div class="info-card-body">
-        <h3>Eternal Night</h3>
-        <p>No sunlight reaches this far. The water is icy and the pressure crushing. Life here glows with bioluminescence to lure prey and startle predators.</p>
-      </div>
-    </div>
+    <div class="zone-layout">
+      <div class="zone-media">
+        <figure class="creature reveal">
+          <img src="images/colossal_squid_midnight_zone.png" alt="Colossal squid" />
+          <figcaption class="memo">
+            <strong>Colossal Squid</strong>
+            In eternal night, this deep-sea giant survives icy water and crushing pressure.
+          </figcaption>
+        </figure>
 
-    <figure class="creature creature--right reveal">
-      <img src="images/angler_fish_midnight_zone.png" alt="Anglerfish" />
-      <figcaption class="memo">
-        <strong>Anglerfish</strong>
-        Dangles a glowing lure from its head to draw curious prey into its jaws.
-      </figcaption>
-    </figure>
+        <figure class="creature reveal">
+          <img src="images/angler_fish_midnight_zone.png" alt="Anglerfish" />
+          <figcaption class="memo">
+            <strong>Anglerfish</strong>
+            Dangles a glowing lure from its head to draw curious prey into its jaws.
+          </figcaption>
+        </figure>
+      </div>
+
+      <article class="zone-story reveal">
+        <span class="zone-story__eyebrow">Midnight Zone</span>
+        <h3>Research Paper: Western Interior Sea</h3>
+        <div class="zone-story__abstract">
+          <strong>Abstract</strong>
+          <p>During the Cretaceous period (143.1 to 66 MYA), there existed a vast seaway in what is now central North America for 34 million years. This seaway is called the Western Interior Seaway. However, the Western Interior Seaway gets struck by an asteroid, which is now called the K-Pg extinction because it caused a major worldwide extinction. The Western Interior Seaway experienced radical changes due to the K-pg extinction and we must be aware of the negative effects on our current ocean eco-system.</p>
+        </div>
+        <a class="research-download" href="https://drive.google.com/file/d/18dEkVLoKfTTa7_yMhzLpcw9pVMmLClJW/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Read / Download Research Paper</a>
+        <p>Before writing this research paper, I did have interest in marine biology that I got from fishing or simply just talking about it with other people, but it was not that I had extensive knowledge under this topic. Writing this research paper helped me notice not only our modern marine life, but especially the ancient marine sea life, which is something that is more of an uncommon topic than the modern sea. While learning this topic, I got introduced to many different things that I never thought that I would be interested in, such as marine paleontologists or technologies used to study fossils. This research paper gave me another dream to pursue, which is studying marine paleontology more in depth in the future.</p>
+      </article>
+    </div>
   </section>
 
   <!-- ============================ SCREEN 5 — ABYSSAL ============================ -->
@@ -232,28 +274,31 @@
       <span class="zone-depth">4000 – 6000 m</span>
     </div>
 
-    <figure class="creature creature--left reveal">
-      <img src="images/Frilled_Shark_Abyss_zone.png" alt="Frilled shark" />
-      <figcaption class="memo">
-        <strong>Frilled Shark</strong>
-        A living fossil with frilly gills and rows of needle teeth, nearly unchanged for millions of years.
-      </figcaption>
-    </figure>
+    <div class="zone-layout">
+      <div class="zone-media">
+        <figure class="creature reveal">
+          <img src="images/Frilled_Shark_Abyss_zone.png" alt="Frilled shark" />
+          <figcaption class="memo">
+            <strong>Frilled Shark</strong>
+            A living fossil with frilly gills and rows of needle teeth, nearly unchanged for millions of years.
+          </figcaption>
+        </figure>
 
-    <figure class="creature creature--right reveal">
-      <img src="images/Sea_cucumbers_abyss_zone.png" alt="Sea cucumbers" />
-      <figcaption class="memo">
-        <strong>Sea Cucumbers</strong>
-        The vacuum cleaners of the seabed, recycling nutrients in the cold, still dark.
-      </figcaption>
-    </figure>
-
-    <div class="seafloor">
-      <div class="seafloor-text reveal">
-        <h2>You've Reached the Floor!</h2>
-        <p>You've reached the end of the ocean, but the end only means the beginning.</p>
-        <p>I know that this is the beginning of exploring the academic world.</p>
+        <figure class="creature reveal">
+          <img src="images/Sea_cucumbers_abyss_zone.png" alt="Sea cucumbers" />
+          <figcaption class="memo">
+            <strong>Sea Cucumbers</strong>
+            The vacuum cleaners of the seabed, recycling nutrients in the cold, still dark.
+          </figcaption>
+        </figure>
       </div>
+
+      <article class="zone-story reveal">
+        <span class="zone-story__eyebrow">Abyssal Zone</span>
+        <h3>New Beginning</h3>
+        <p>70% of the earth is covered by the ocean and it is the place where there are more lives than any other places on the earth. According to the BBC, the oceans are thought to have 2 million species, but only 250,000 of them are currently found. There are largely unexplored areas in the deep seas, such as the abyssal zone and there are thought to be scores of large marine animals there. The race is trying to explore the remaining species quickly for reasons, such as mining. However, they are hesitant to do that because the area that was untouched for millions of years might be too fragile to mine. Even if there are many issues, with the new methods of ocean exploration we are getting closer than ever to discovering more species.</p>
+        <p>99.999% of the deep ocean seafloor has never been directly explored by humans and this is the reason why I pursue marine biology more than any other areas of science. The ocean is the most unexplored place on earth because of many different reasons, such as extreme pressure, darkness, and high costs. However, I want to create advanced technology as I grow up, to explore more of the deep sea and make the 99.999% to 98%. Especially the fossils that will be embedded in the ocean floor as well. I believe that once I lower the percentage one day, the percentage will decrease rapidly. The current tools used are mapping tools or human occupied vehicles.</p>
+      </article>
     </div>
   </section>
 

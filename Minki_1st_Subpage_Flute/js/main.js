@@ -21,11 +21,6 @@ document.querySelectorAll("[data-instr]").forEach((host) => {
   if (!svg) return;
   svg.classList.remove("tpl");
   host.appendChild(svg);
-  const gk = host.dataset.glowKey;        // pre-glow a key (Screen 3 flute)
-  if (gk) {
-    const key = svg.querySelector(`.fkey[data-key="${gk}"]`);
-    if (key) key.classList.add("fkey--glow");
-  }
 });
 
 /* ---------- Element refs ---------- */
@@ -57,11 +52,9 @@ gsap.timeline({ defaults: { ease: "power3.out" } })
   .from(".stage-scaler", { x: -70, opacity: 0, duration: 1.1 })
   .from(".cta-pick", { y: -20, opacity: 0, duration: 0.7 }, "-=0.7")
   .from(".instrument--flute", { x: 80, opacity: 0, duration: 0.9 }, "-=0.5")
-  .from(".instrument--piccolo", { x: 80, opacity: 0, duration: 0.9 }, "-=0.6")
   .from(".scroll-cue--stage", { opacity: 0, duration: 0.6 }, "-=0.3");
 
 gsap.to(".instrument--flute .instr-art", { y: 14, duration: 3, ease: "sine.inOut", repeat: -1, yoyo: true });
-gsap.to(".instrument--piccolo .instr-art", { y: -12, duration: 3.4, ease: "sine.inOut", repeat: -1, yoyo: true });
 
 /* ============================================================
    SCREEN 1 -> 2  (pinned, scroll-zoom into "ready")
@@ -123,10 +116,24 @@ function closeModal() {
   modal.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
   revealDescriptions();
+  requestAnimationFrame(() => {
+    descSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
 }
 
 document.getElementById("modalClose").addEventListener("click", closeModal);
 document.getElementById("modalBackdrop").addEventListener("click", closeModal);
+document.getElementById("performanceNav").addEventListener("click", (event) => {
+  event.preventDefault();
+  openModal();
+});
+document.getElementById("secondMovementNav").addEventListener("click", (event) => {
+  event.preventDefault();
+  revealDescriptions();
+  requestAnimationFrame(() => {
+    descSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+});
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && modal.classList.contains("is-open")) closeModal();
 });
@@ -146,11 +153,6 @@ function revealDescriptions() {
   descSection.hidden = false;
   ScrollTrigger.refresh();
 
-  // flute rises up as the descriptions come into view
-  gsap.from("#descFlute", {
-    scrollTrigger: { trigger: "#descriptions", start: "top 78%", end: "top 28%", scrub: 1 },
-    y: 170, opacity: 0, ease: "none",
-  });
   gsap.from("#descriptions .desc-head", {
     scrollTrigger: { trigger: "#descriptions .desc-head", start: "top 82%" },
     y: 40, opacity: 0, duration: 0.9, ease: "power3.out",
@@ -170,9 +172,6 @@ function revealDescriptions() {
     end: "bottom center",
     onToggle: (self) => { if (self.isActive) setRail(3); },
   });
-
-  // gentle nudge so the new section is noticed
-  gsap.delayedCall(0.25, () => window.scrollBy({ top: window.innerHeight * 0.5, behavior: "smooth" }));
 }
 
 /* ============================================================
@@ -185,13 +184,6 @@ function scrollThroughZoom() {
 }
 ctaPick.addEventListener("click", scrollThroughZoom);
 document.getElementById("pickFlute").addEventListener("click", scrollThroughZoom);
-document.getElementById("pickPiccolo").addEventListener("click", () => {
-  const piccolo = document.querySelector(".instrument--piccolo .instr-art");
-  gsap.fromTo(piccolo, { rotation: -3 }, {
-    rotation: 3, duration: 0.1, repeat: 5, yoyo: true, transformOrigin: "center",
-    onComplete: scrollThroughZoom,
-  });
-});
 
 /* rail: stage active by default */
 ScrollTrigger.create({

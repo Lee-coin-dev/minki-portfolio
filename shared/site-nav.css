@@ -1,0 +1,124 @@
+/* ============================================================
+   Site navigation — shared across all portfolio pages
+   ============================================================ */
+:root {
+  --site-nav-height: 48px;
+}
+
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--site-nav-height);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 1.4rem;
+  background: rgba(8, 14, 20, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.site-nav__brand {
+  flex-shrink: 0;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  transition: color 0.18s ease;
+}
+
+.site-nav__brand:hover {
+  color: #ffffff;
+}
+
+.site-nav__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.25rem 0.15rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-nav__link {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
+  transition: color 0.18s ease, background 0.18s ease;
+}
+
+.site-nav__link:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.site-nav__link.is-active {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.site-nav__link--secondary {
+  font-size: 0.66rem;
+}
+
+.site-nav__divider {
+  width: 1px;
+  height: 18px;
+  margin: 0 0.55rem;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 640px) {
+  :root {
+    --site-nav-height: 74px;
+  }
+
+  .site-nav {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.55rem 0.85rem;
+  }
+
+  .site-nav--expanded {
+    height: auto;
+    min-height: 100px;
+  }
+
+  .site-nav__brand {
+    text-align: center;
+    font-size: 0.85rem;
+  }
+
+  .site-nav__list {
+    justify-content: center;
+  }
+
+  .site-nav__link {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.55rem;
+  }
+
+  .site-nav__link--secondary {
+    font-size: 0.62rem;
+  }
+
+  .site-nav__divider {
+    height: 15px;
+    margin: 0 0.25rem;
+  }
+}

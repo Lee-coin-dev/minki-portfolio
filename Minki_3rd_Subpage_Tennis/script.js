@@ -381,6 +381,14 @@ function init() {
   $("#btnGameStart").addEventListener("click", goToGame);
   $("#ball").addEventListener("click", hitBall);
   $$("[data-back]").forEach((b) => b.addEventListener("click", backToGame));
+  $$("[data-screen-nav]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      const target = link.dataset.screenNav;
+      showScreen(target);
+      if (target === "podium") launchConfetti();
+    });
+  });
 
   $("#btnLookResults").addEventListener("click", () => {
     showScreen("podium");

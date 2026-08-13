@@ -8,16 +8,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="../shared/site-nav.css" />
 </head>
 <body>
 
-  <!-- ===== Back Navigation ===== -->
-  <nav class="back-nav" aria-label="Return to main">
-    <a class="back-nav__link" href="../Minki_Mainpage_Gecko/">
-      <span class="back-nav__arrow">←</span>
-      <span class="back-nav__text">Back to the Journey</span>
-    </a>
-    <span class="back-nav__title">Minki · Tennis</span>
+  <nav class="site-nav site-nav--expanded" aria-label="Site navigation">
+    <a class="site-nav__brand" href="../Minki_Mainpage/">Minki</a>
+    <ul class="site-nav__list">
+      <li><a class="site-nav__link site-nav__link--secondary" href="../Minki_Mainpage/">Home</a></li>
+      <li><a class="site-nav__link site-nav__link--secondary" href="../Minki_1st_Subpage_Flute/">Flute</a></li>
+      <li><a class="site-nav__link site-nav__link--secondary" href="../Minki_2nd_Subpage_Marine_Biology/">Marine Biology</a></li>
+      <li><a class="site-nav__link is-active" href="./" aria-current="page">Tennis</a></li>
+      <li class="site-nav__divider" aria-hidden="true"></li>
+      <li><a class="site-nav__link site-nav__link--secondary" href="#screen-video" data-screen-nav="video">Set 1</a></li>
+      <li><a class="site-nav__link site-nav__link--secondary" href="#screen-history" data-screen-nav="history">Set 2</a></li>
+      <li><a class="site-nav__link site-nav__link--secondary" href="#screen-reasons" data-screen-nav="reasons">Set 3</a></li>
+      <li><a class="site-nav__link site-nav__link--secondary" href="#screen-podium" data-screen-nav="podium">Podium</a></li>
+    </ul>
   </nav>
 
   <div id="app">
@@ -185,9 +192,9 @@
             <circle cx="0" cy="0" r="22" fill="#f6cfa0"/>
             <!-- long dark ponytail -->
             <path d="M -18 -8 Q -42 6 -34 48 Q -26 30 -20 14 Z" fill="#3a2a1f"/>
-            <path d="M -22 -18 Q 0 -40 22 -18 Q 18 -30 0 -32 Q -18 -30 -22 -18 Z" fill="#3a2a1f"/>
-            <path d="M -22 -16 Q -24 4 -16 14 L -16 -10 Z" fill="#3a2a1f"/>
-            <path d="M 22 -16 Q 24 4 16 14 L 16 -10 Z" fill="#3a2a1f"/>
+            <path d="M -22 0 Q -22 -29 2 -29 Q 26 -29 22 0 Q 19 -15 0 -15 Q -20 -15 -22 0 Z" fill="#3a2a1f"/>
+            <path d="M -22 0 Q -24 10 -16 18 L -16 -10 Q -20 -8 -22 0 Z" fill="#3a2a1f"/>
+            <path d="M 22 0 Q 24 10 16 18 L 16 -10 Q 20 -8 22 0 Z" fill="#3a2a1f"/>
             <!-- face -->
             <circle cx="-7" cy="2" r="2.6" fill="#2a2a2a"/>
             <circle cx="9" cy="2" r="2.6" fill="#2a2a2a"/>
@@ -281,26 +288,9 @@
     <section class="screen screen--content" id="screen-history">
       <div class="content-card content-card--wide">
         <span class="content-kicker">SET 2 — THE JOURNEY</span>
-        <h2>Irene Suh's Tennis History</h2>
-        <p class="content-sub">Every champion starts somewhere. Here's the road so far.</p>
-        <div class="history-grid">
-          <figure class="history-item">
-            <div class="ph ph-1">🎾</div>
-            <figcaption><b>Age 8 — First Racquet</b><br/>Picked up a racquet at a local club and never put it down.</figcaption>
-          </figure>
-          <figure class="history-item">
-            <div class="ph ph-2">🏫</div>
-            <figcaption><b>Age 11 — Junior League</b><br/>Joined her first competitive junior league and reached the semifinals.</figcaption>
-          </figure>
-          <figure class="history-item">
-            <div class="ph ph-3">🏆</div>
-            <figcaption><b>Age 12 — Regional Champion</b><br/>Won her first regional title with a straight-sets victory.</figcaption>
-          </figure>
-          <figure class="history-item">
-            <div class="ph ph-4">🇰🇷</div>
-            <figcaption><b>Age 13 — National Finalist</b><br/>Now competing in the 2026 South Korea Open Final.</figcaption>
-          </figure>
-        </div>
+        <h2>The reason why I love Tennis</h2>
+        <p class="content-sub">Tenacity and Resilience</p>
+        <p class="history-story">I love tennis because it combines all of the skills and qualities that I want to and enjoy developing in. Like playing the flute, tennis requires a lot of breath control and enduring. Managing my breath while doing any kind of activity helps me to maintain my concentration and manage my energy throughout the challenge. And I can perform my best with breath control under pressures. I personally do not like sports that requires contact with the other team members because it feels like they are taking away my energy and breaths as I continue to hit my body towards them or get injured. However, I rather prefer sports that requires mental thinking or cooperation with the team. Tennis is a sport that has both. It has single and doubles and it is also a combination of athletic movement and strategic thinking. That is why I find it both exciting and rewarding.</p>
         <button class="btn-back" data-back>Go Back to the Game</button>
       </div>
     </section>
@@ -308,15 +298,10 @@
     <!-- ===================== CONTENT : REASONS ===================== -->
     <section class="screen screen--content" id="screen-reasons">
       <div class="content-card">
-        <span class="content-kicker">SET 3 — WON! 🏆</span>
-        <h2>Why Irene Started Playing Tennis</h2>
-        <p class="content-sub">The story behind the swing.</p>
-        <ul class="reasons-list">
-          <li><span class="r-emoji">❤️</span><div><b>For the love of the game</b><br/>The thrill of a perfectly timed shot is unmatched.</div></li>
-          <li><span class="r-emoji">💪</span><div><b>Discipline & focus</b><br/>Tennis taught her patience, resilience, and how to stay calm under pressure.</div></li>
-          <li><span class="r-emoji">👨‍👩‍👧</span><div><b>Family inspiration</b><br/>Watching matches with her family sparked the dream.</div></li>
-          <li><span class="r-emoji">🌏</span><div><b>To go the distance</b><br/>She wants to represent Korea on the world stage one day.</div></li>
-        </ul>
+        <span class="content-kicker">SET 3 — TENNIS WITH NATURE</span>
+        <h2>Photojournalism Project</h2>
+        <p class="content-sub">Tennis: A Sports that human and nature harmoizes.</p>
+        <p class="reasons-placeholder">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
         <button class="btn-results" id="btnLookResults">Look at Results</button>
       </div>
     </section>
@@ -325,16 +310,11 @@
     <section class="screen screen--podium" id="screen-podium">
       <div class="podium-bg"></div>
       <div class="podium-content">
-        <h2 class="podium-title">2026 South Korea Open — Final Results</h2>
+        <h2 class="podium-title">Victory!</h2>
 
         <div class="podium-stage">
           <!-- 2nd -->
           <div class="podium-col col-2">
-            <div class="medalist">
-              <div class="medal silver">🥈</div>
-              <div class="winner-face neutral"></div>
-              <span class="winner-name">Player 1</span>
-            </div>
             <div class="block block-2"><span>2</span></div>
           </div>
           <!-- 1st -->
@@ -349,18 +329,15 @@
           </div>
           <!-- 3rd -->
           <div class="podium-col col-3">
-            <div class="medalist">
-              <div class="medal bronze">🥉</div>
-              <div class="winner-face neutral two"></div>
-              <span class="winner-name">Player 2</span>
-            </div>
             <div class="block block-3"><span>3</span></div>
           </div>
         </div>
 
         <div class="podium-text">
-          <p><b>Irene Suh — Champion. 🏆</b></p>
-          <p>This medal didn't come easy. Years of early-morning practices, blistered hands, lost matches, and relentless drills brought Irene here. Every serve, every sprint to the net, every late-night film session paid off in the 2026 South Korea Open Final. Hard work, heart, and an unshakable love for the game made her a champion.</p>
+          <p><b>Podium, statue of recognition</b></p>
+          <h3>people think that standing on the podium is the end, but it's actualy a new beginning</h3>
+          <p>I’ve tried multiple games(more than ten) throughout my eighth grade varsity team at Fay and my last two were the games that I was the most recognized. For the first several games, it was all winning. Usually winning 6-1 or 6-0 and I thought this was the way to get recognized by the teammates and my coach. However, it was not only me that was winning. Winning became too common within our team. I never realized at the moment, but now that I think back about it, maybe what I pursued was recognition. For the last two games, it was a loss. For the second to last one, it was a double game with a teammate that I was not that close with, but we tried very hard throughout the game and even though we lost, we got more recognition after.</p>
+          <p>The last loss was more intense. I played with a junior student at Austin Prep and she actually made me try throughout the game. The game was very tense. One of the most tense games that I’ve ever had. 1–0, 1-1, 2-1, 2-2, 3-2. It kept on going like that, which made me want to win. We eventually got to the point where our scores were 6-6 and went to the tie breaker. I got really nervous at that point because too many people were watching outside the fence. However, the tie breaker went very bad. Maybe because I was sweating too much on my hands. It was 7-1. Terrine score. However, when the game was over, I felt more like winning, rather than a loss. It was the first ever game that I’ve actually tried and I was grateful that I got to experience that at the end of the season. When I stepped outside the court, that was when I got recognized by everyone. And that felt like a fresh new start for me, rather than only an end of the season.</p>
         </div>
         <button class="btn-restart" id="btnRestart">Play Again</button>
       </div>
